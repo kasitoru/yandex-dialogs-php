@@ -95,6 +95,15 @@ ___
 
 ### bind_default_action
 
+Связывает указанную функцию с собитием отсутствия других действий. Отлично подходит для обработки ситуаций, когда фраза пользователя не распознана. В вызываемую функцию передается указатель на $this.
+
+	function default_action($alice) {
+		...
+		some code
+		...
+	}
+	$alice->bind_default_action('default_action');
+
 ### add_button
 
 ### add_message
