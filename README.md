@@ -152,4 +152,8 @@ ___
 
 ### end_session
 
+Завершает диалог с пользователем.
+
+	$alice->end_session();
+
 ### finish
