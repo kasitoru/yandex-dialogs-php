@@ -52,6 +52,9 @@ ___
 ## Методы
 
 ### Конструктор
+
+`public function __construct(string $version='1.0')`
+
 Создание объекта класса YandexDialog.
 
 `$version` - Номер используемой версии протокола. Строка. Не обязательно. По умолчанию: '1.0'.
@@ -60,6 +63,8 @@ ___
 
 ### get_request
 
+`public function get_request(array $data=null): bool`
+
 Получить информацию о запросе пользователя.
 
 `$data` - Данные запроса пользователя. Многомерный массив ([см.тут](https://tech.yandex.ru/dialogs/alice/doc/protocol-docpage/#request)). Не обязательно. По умолчанию: декодированный json из php://input.
@@ -67,6 +72,8 @@ ___
 	$alice->get_request();
 
 ### bind_new_action
+
+`public function bind_new_action(string $action): bool`
 
 Связывает указанную функцию с событием начала нового диалога (новой сессии). В вызываемую функцию передается указатель на $this.
 
@@ -80,6 +87,8 @@ ___
 	$alice->bind_new_action('new_session_action');
 
 ### bind_words_action
+
+`public function bind_words_action(array $words, string $action): bool`
 
 Связывает указанную функцию с событием нахождения одного из заданных слов в запросе пользователя. В вызываемую функцию передается указатель на $this и обнаруженное слово.
 
@@ -95,6 +104,8 @@ ___
 	$alice->bind_words_action(array('яблоко', 'груша', 'апельсин'), 'find_word_action');
 
 ### bind_percentage_action
+
+`public function bind_percentage_action(array $words, int $percentage, string $action): bool`
 
 Связывает указанную функцию с событием превышения (или равенства) заданного процентного нахождения слов в запросе пользователя. В вызываемую функцию передается указатель на $this и найденное процентное значение.
 
@@ -113,6 +124,8 @@ ___
 
 ### bind_default_action
 
+`public function bind_default_action(string $action): bool`
+
 Связывает указанную функцию с собитием отсутствия других действий. Отлично подходит для обработки ситуаций, когда фраза пользователя не распознана. В вызываемую функцию передается указатель на $this.
 
 `$action` - Имя функции, которой необходимо передавать управление. Строка. Обязательный параметр.
@@ -125,6 +138,8 @@ ___
 	$alice->bind_default_action('default_action');
 
 ### add_button
+
+`public function add_button(string $title, string $url=NULL, array $payload=NULL, bool $hide=false): bool`
 
 Добавляет кнопку в варианты ответа пользователя.
 
@@ -141,6 +156,8 @@ ___
 
 ### add_message
 
+`public function add_message(string $message, string $tts=null): bool`
+
 Добавляет сообщение в список ответов. Перед отправкой автоматически выбирается один случайный вариант.
 
 `$message` - Текст сообщения для отправки. Могут использоваться теги. Строка. Обязательный параметр;
@@ -152,11 +169,15 @@ ___
 
 ### end_session
 
+`public function end_session(): bool`
+
 Завершает диалог с пользователем.
 
 	$alice->end_session();
 
 ### finish
+
+`public function finish(bool $die=false): bool`
 
 Производит некоторые подготовительные процедуры и отправляет ответ Яндекс.Диалогам.
 
