@@ -16,14 +16,14 @@ if($alice->get_request()) {
 	$alice->bind_new_action('_new_session');
 	
 	// Пример завершения сессии
-	function _no($alice, $token) {
+	function _no($token, $alice) {
 		$alice->add_message('Очень жаль!');
 		$alice->end_session();
 	}
 	$alice->bind_words_action(array('не', 'нет'), '_no');
 	
 	// Пример ответа при наличии одного из заданных слов
-	function _yes($alice, $token) {
+	function _yes($token, $alice) {
 		$alice->add_button('Как называется игра?');
 		// Будет выбран только один случайный ответ
 		$alice->add_message('Как я поняла, вы ответили "'.$token.'"!');
@@ -32,7 +32,7 @@ if($alice->get_request()) {
 	$alice->bind_words_action(array('хочу', 'да'), '_yes');
 
 	// Ответ при одновременном наличии нескольких слов
-	function _game($alice, $percentage) {
+	function _game($percentage, $alice) {
 		// Из нескольких слов в теге [word1|word2...] будет выбрано только одно случайное
 		$alice->add_message('Ваша фраза совпала с [ожидаемой|заданной] на '.$percentage.'%!');
 	}

@@ -70,7 +70,7 @@ class YandexDialog {
 			if($tokens = $this->request['request']['nlu']['tokens']) {
                 foreach($tokens as $token) {
                     if(in_array($token, $words)) {
-                        return $action($this, $token);
+                        return $action($token, $this);
                         break;
                     }
                 }
@@ -101,7 +101,7 @@ class YandexDialog {
 				}
                 $match = $matches/(count($words)/100);
 				if($match >= $percentage) {
-					return $action($this, $match);
+					return $action($match, $this);
 				}
 			}
 		}
