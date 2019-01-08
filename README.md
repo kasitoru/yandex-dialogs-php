@@ -58,7 +58,18 @@ ___
 
 ### get_request
 
+Получить информацию о запросе пользователя. Если параметр $data не указан, то данные будут браться из php://input.
+
 ### bind_new_action
+
+Связывает указанную функцию с событием начала новго диалога (новой сессии). В вызываемую функцию передается указатель на $this.
+
+    function new_session_action($alice) {
+        ...
+		some code
+		...
+	}
+    $alice->bind_new_action('new_session_action');
 
 ### bind_words_action
 
