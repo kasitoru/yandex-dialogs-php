@@ -21,6 +21,7 @@ ___
 	+ [add_message](#add_message)
 	+ [end_session](#end_session)
 	+ [use_chatbase](#use_chatbase)
+	+ [chatbase_handled](#chatbase_handled)
 	+ [finish](#finish)
  4. [Встроенные теги](#%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%82%D0%B5%D0%B3%D0%B8)
 
@@ -186,6 +187,16 @@ ___
 `$api_key` - API ключ, полученный в личном кабинете сервиса. Строка. Обязательный параметр.
 
 	$alice->use_chatbase('YOU_CHATBASE_API_KEY');
+
+### chatbase_handled
+
+`public function chatbase_handled(bool $handled=true): bool`
+
+Устанавливает значение флага handled для Google Chatbase. Этим способом рекомендуется "маркировать" те ситуации, когда запрос пользователя не распознан или привел к ошибке. Если не вызывать этот метод, то считается что handled = false.
+
+`$handled` - Значение, которое необходимо установить для handled. Логическое. Не обязательно. По-умолчанию: true.
+
+	$alice->chatbase_handled();
 
 ### finish
 

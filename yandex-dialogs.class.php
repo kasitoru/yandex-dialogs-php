@@ -15,6 +15,7 @@ class YandexDialog {
 	public $response = null;
 	
 	private $chatbase = null;
+	private $cb_handled = false;
 
 	// Конструктор
 	public function __construct($version='1.0') {
@@ -174,6 +175,15 @@ class YandexDialog {
 		$this->chatbase = new ChatbaseAPI\Chatbase($api_key);
 	}
 	
+	// Установить значение флага "handled"
+	public function chatbase_handled($handled=true) {
+		if($this->chatbase) {
+			$this->cb_handled = $handled;
+			return true;
+		}
+		return false;
+	}
+	
 	// Отправляем ответ пользователю
 	public function finish($die=false) {
 		if(!empty($this->response['response']['text'])) {
@@ -203,7 +213,7 @@ class YandexDialog {
 		// Google Chatbase
 		if($this->chatbase) {
 			if(!$this->is_ping()) {
-				$chatbase = $this->chatbase->twoWayMessages($this->request['session']['user_id'], $this->request['session']['skill_id'], $this->request['request']['command'], $this->response['response']['text'], $this->request['meta']['client_id']);
+				$chatbase = $this->chatbase->twoWayMessages($this->request['session']['user_id'], $this->request['session']['skill_id'], $this->request['request']['command'], $this->response['response']['text'], $this->request['meta']['client_id'], $this->cb_handled);
 				$this->chatbase->sendall($chatbase);
 			}
 		}
