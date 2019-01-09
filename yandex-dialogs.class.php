@@ -7,10 +7,14 @@
 */
 
 
+include_once 'libraries/chatbase.php';
+
 class YandexDialog {
 	
 	public $request = null;
 	public $response = null;
+	
+	private $chatbase = null;
 
 	// Конструктор
 	public function __construct($version='1.0') {
@@ -165,6 +169,11 @@ class YandexDialog {
 		return true;
 	}
 	
+	// Использовать Google Chatbase
+	public function use_chatbase($api_key) {
+		$this->chatbase = new ChatbaseAPI\Chatbase($api_key);
+	}
+	
 	// Отправляем ответ пользователю
 	public function finish($die=false) {
 		if(!empty($this->response['response']['text'])) {
@@ -191,6 +200,14 @@ class YandexDialog {
 			$this->response['response']['text'] = $error;
 			$this->response['response']['tts'] = $error;
 		}
+		// Google Chatbase
+		if($this->chatbase) {
+			if(!$this->is_ping()) {
+				$chatbase = $this->chatbase->twoWayMessages($this->request['session']['user_id'], $this->request['session']['skill_id'], $this->request['request']['command'], $this->response['response']['text'], $this->request['meta']['client_id']);
+				$this->chatbase->sendall($chatbase);
+			}
+		}
+		// Выводим результат
 		header('Content-Type: application/json');
 		echo json_encode($this->response);
 		if($die) exit;

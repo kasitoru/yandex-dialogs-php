@@ -20,6 +20,7 @@ ___
 	+ [add_button](#add_button)
 	+ [add_message](#add_message)
 	+ [end_session](#end_session)
+	+ [use_chatbase](#use_chatbase)
 	+ [finish](#finish)
  4. [Встроенные теги](#%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%82%D0%B5%D0%B3%D0%B8)
 
@@ -28,13 +29,13 @@ ___
 | Описание изменений | Дата публикации 
 |--|:--:|
 |Первая публичная версия | **08.01.2019**
+|Поддержка сервиса [Google Chatbase](#use_chatbase) | **09.01.2019**
 |Отправка сообщений с изображениями | ---
 |Сохранение данных сессии | ---
 |Сохранение данных пользователя | ---
 |Морфологический анализ слов | ---
 |Подключение Яндекс.Метрика | ---
 |Подключение AppMetrica | ---
-|Подключение Google Chatbase | ---
 |Подключение Google Analytics | ---
 |Анализ текста с помощью Томита-парсер | ---
 
@@ -175,6 +176,16 @@ ___
 Завершает диалог с пользователем.
 
 	$alice->end_session();
+
+### use_chatbase
+
+`public function use_chatbase(string $api_key)`
+
+Включает использование сервиса [Google Chatbase](https://chatbase.com/). Данные передаются в момент вызова метода [finish](#finish).
+
+`$api_key` - API ключ, полученный в личном кабинете сервиса. Строка. Обязательный параметр.
+
+	$alice->use_chatbase('YOU_CHATBASE_API_KEY');
 
 ### finish
 
