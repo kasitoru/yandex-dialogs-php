@@ -1,5 +1,12 @@
 <?php
 
+/*
+	PHP библиотека для разработки навыков Яндекс.Алисы
+	Author: Sergey Avdeev <thesoultaker48@gmail.com>
+	URL: https://github.com/thesoultaker48/yandex-dialogs-php
+*/
+
+
 include_once '../yandex-dialogs.class.php';
 
 $alice = new YandexDialog();

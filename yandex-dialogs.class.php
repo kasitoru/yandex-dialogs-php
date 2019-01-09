@@ -30,6 +30,18 @@ class YandexDialog {
 		);
 	}
 	
+	// Проверка запроса на признак служебного (ping, test и т.д.)
+	private function is_ping() {
+		if(isset($this->request['version'])) {
+			if($this->request['session']['new']) {
+				if(in_array($this->request['request']['original_utterance'], array('ping', 'test'))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	// Получаем данные от пользователя
 	public function get_request($data=null) {
 		if(is_null($data)) {
@@ -38,11 +50,9 @@ class YandexDialog {
 			$this->request = $data;
 		}
 		if(isset($this->request['version'])) {
-			if($this->request['session']['new']) {
-				if(in_array($this->request['request']['original_utterance'], array('ping', 'test'))) {
-					$this->add_message('ok');
-					$this->finish(true);
-				}
+			if($this->is_ping()) {
+				$this->add_message('ok');
+				$this->finish(true);
 			}
 			$this->response['session']['session_id'] = $this->request['session']['session_id'];
 			$this->response['session']['message_id'] = $this->request['session']['message_id'];
