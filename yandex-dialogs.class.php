@@ -213,7 +213,15 @@ class YandexDialog {
 		// Google Chatbase
 		if($this->chatbase) {
 			if(!$this->is_ping()) {
-				$chatbase = $this->chatbase->twoWayMessages($this->request['session']['user_id'], $this->request['session']['skill_id'], $this->request['request']['command'], $this->response['response']['text'], $this->request['meta']['client_id'], $this->cb_handled);
+				$chatbase = $this->chatbase->twoWayMessages(
+					$this->request['session']['user_id'],
+					$this->request['session']['skill_id'],
+					$this->request['request']['command'],
+					$this->response['response']['text'],
+					$this->request['meta']['client_id'],
+					$this->request['session']['session_id'],
+					$this->cb_handled
+				);
 				$this->chatbase->sendall($chatbase);
 			}
 		}

@@ -93,11 +93,12 @@ class Chatbase {
   * @param $platform    - Platform like, facebook, slack, alexa etc
   * @param $message     - Message sent by user
   * @param $intent      - Intent classifying message
+  * @param $session_id    - Used to define your own custom sessions
   * @param $not_handled - (boolean) If handled by agent or not
   * @param $feedback    - (boolean) If feedback to agent or not
   * @return Array $request_data - Array containing parameters required by API endpoint
   */
-  public function userMessage($user_id, $platform, $message = "", $intent = "", $not_handled = false, $feedback = false) {
+  public function userMessage($user_id, $platform, $message = "", $intent = "", $session_id = "", $not_handled = false, $feedback = false) {
     $request_data = array(
       'api_key' => $this->API_KEY,
       'type' => 'user',
@@ -106,6 +107,7 @@ class Chatbase {
       'platform' => $platform,
       'message' => $message,
       'intent' => $intent,
+      'session_id' => $session_id,
       'not_handled' => $not_handled,
       'feedback' => $feedback
     );
@@ -121,10 +123,11 @@ class Chatbase {
   * @param $platform    - Platform like, facebook, slack, alexa etc
   * @param $message     - Message sent by agent
   * @param $intent      - Intent classifying message
+  * @param $session_id    - Used to define your own custom sessions
   * @param $not_handled - (boolean) If handled by agent or not
   * @return Array $request_data - Array containing parameters required by API endpoint
   */
-  public function agentMessage($user_id, $platform, $message = "", $intent = "", $not_handled = false) {
+  public function agentMessage($user_id, $platform, $message = "", $intent = "", $session_id = "", $not_handled = false) {
     $request_data = array(
       'api_key' => $this->API_KEY,
       'type' => 'agent',
@@ -132,6 +135,7 @@ class Chatbase {
       'time_stamp' => $this->getMilliseconds(),
       'platform' => $platform,
       'message' => $message,
+      'session_id' => $session_id,
       'not_handled' => $not_handled
     );
 
@@ -148,15 +152,17 @@ class Chatbase {
   * @param $user_message  - Message sent by user
   * @param $agent_message - Message sent by agent
   * @param $intent        - Intent classifying message
+  * @param $session_id    - Used to define your own custom sessions
   * @param $not_handled   - (boolean) If handled by agent or not
   * @return Array $request_data - Array containing array of messages required by API endpoint (messages)
   */
-  public function twoWayMessages($user_id, $platform, $user_message = "", $agent_message = "", $intent = "", $not_handled = false) {
+  public function twoWayMessages($user_id, $platform, $user_message = "", $agent_message = "", $intent = "", $session_id = "", $not_handled = false) {
     $agent_data = array(
       'type' => 'agent',
       'user_id' => $user_id,
       'platform' => $platform,
       'message' => $agent_message,
+      'session_id' => $session_id,
       'not_handled' => $not_handled
     );
     $user_data = array(
@@ -165,6 +171,7 @@ class Chatbase {
       'platform' => $platform,
       'message' => $user_message,
       'intent' => $intent,
+      'session_id' => $session_id,
       'not_handled' => $not_handled
     );
 
