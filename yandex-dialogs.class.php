@@ -220,6 +220,8 @@ class YandexDialog {
 					$this->response['response']['text'],
 					$this->request['meta']['client_id'],
 					$this->request['session']['session_id'],
+					$this->request['version'],
+					$this->response['version'],
 					$this->cb_handled
 				);
 				$this->chatbase->sendall($chatbase);
