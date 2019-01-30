@@ -39,8 +39,12 @@ class YandexDialog {
 	private function is_ping() {
 		if(isset($this->request['version'])) {
 			if($this->request['session']['new']) {
-				if(in_array($this->request['request']['original_utterance'], array('ping', 'test'))) {
-					return true;
+				$pings = array(
+					'ping' => 'pong',
+					'test' => 'ok',
+				);
+				if(array_key_exists($this->request['request']['original_utterance'], $pings)) {
+					return $pings[$this->request['request']['original_utterance']];
 				}
 			}
 		}
@@ -55,13 +59,13 @@ class YandexDialog {
 			$this->request = $data;
 		}
 		if(isset($this->request['version'])) {
-			if($this->is_ping()) {
-				$this->add_message('ok');
-				$this->finish(true);
-			}
 			$this->response['session']['session_id'] = $this->request['session']['session_id'];
 			$this->response['session']['message_id'] = $this->request['session']['message_id'];
 			$this->response['session']['user_id'] = $this->request['session']['user_id'];
+			if($answer = $this->is_ping()) {
+				$this->add_message($answer);
+				$this->finish(true);
+			}
 			return true;
 		} else {
 			return false;
