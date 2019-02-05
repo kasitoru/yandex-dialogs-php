@@ -19,6 +19,8 @@ ___
 	+ [bind_default_action](#bind_default_action)
 	+ [add_button](#add_button)
 	+ [add_message](#add_message)
+	+ [get_session](#get_session)
+	+ [set_session](#set_session)
 	+ [end_session](#end_session)
 	+ [use_chatbase](#use_chatbase)
 	+ [chatbase_handled](#chatbase_handled)
@@ -31,9 +33,8 @@ ___
 |--|:--:|
 |Первая публичная версия | **08.01.2019**
 |Поддержка сервиса [Google Chatbase](#use_chatbase) | **09.01.2019**
-|Реализация [Link Tracking](https://chatbase.com/documentation/taps) для Google Chatbase | ---
+|Сохранение данных сессии | **05.02.2019**
 |Отправка сообщений с изображениями | ---
-|Сохранение данных сессии | ---
 |Сохранение данных пользователя | ---
 |Морфологический анализ слов | ---
 |Подключение Яндекс.Метрика | ---
@@ -170,6 +171,30 @@ ___
 
 	$alice->add_message('Среди этих двух сообщений');
 	$alice->add_message('Будет выбрано только одно', 'уже выбрано только одно');
+
+### get_session
+
+`public function get_session(string $name): string`
+
+Получить значение переменной из сессии пользователя.
+
+`$name` - Имя переменной, значение которой необходимо получить. Строка. Обязательный параметр;
+
+	$action = $alice->get_session('action');
+
+### set_session
+
+`public function set_session(string $name, mixed $value): bool`
+
+Установить значение переменной из сессии пользователя.
+
+`$name` - Имя переменной, значение которой необходимо установить. Строка. Обязательный параметр;
+
+`$value` - Значение переменной, которое необходимо установить. Если задать null, то переменная удалится. Любой тип. Обязательный параметр;
+
+	$alice->set_session('action', 'start');
+	$alice->set_session('progress', array('step' => 2, 'place' => 'home'));
+	$alice->set_session('items', null);
 
 ### end_session
 

@@ -17,8 +17,11 @@ class YandexDialog {
 	private $chatbase = null;
 	private $cb_handled = false;
 
+	private $sessions_dir = 'sessions';
+
 	// Конструктор
 	public function __construct($version='1.0') {
+		// Подготавливаем тело ответа
 		$this->response = array(
 			'response' => array(
 				'text' => null,
@@ -33,6 +36,23 @@ class YandexDialog {
 			),
 			'version' => $version
 		);
+		// Удаляем старые сессии
+		if(is_dir($this->sessions_dir)) {
+			if($dir = scandir($this->sessions_dir)) {
+				foreach($dir as $item) {
+					$file = $this->sessions_dir.'/'.$item;
+					if(is_file($file)) {
+						if(pathinfo($file, PATHINFO_EXTENSION) == 'dat') {
+							if(time() - filemtime($file) > 86400) {
+								unlink($file);
+							}
+						}
+					}
+				}
+			}
+		} else { // Или создаем каталог (если он отсутствует)
+			mkdir($this->sessions_dir);
+		}
 	}
 	
 	// Проверка запроса на признак служебного (ping, test и т.д.)
@@ -166,6 +186,41 @@ class YandexDialog {
 			return true;
 		}
 		return false;
+	}
+
+	// Получение данных сессии
+	public function get_session($name) {
+		$file = $this->sessions_dir.'/'.md5($this->request['session']['session_id']).'.dat';
+		if(file_exists($file)) {
+			$data = file_get_contents($file);
+			$session = unserialize($data);
+			if(isset($session[$name])) {
+				return $session[$name];
+			}
+		}
+		return false;
+	}
+
+	// Сохранение данных сессии
+	public function set_session($name, $value) {
+		$file = $this->sessions_dir.'/'.md5($this->request['session']['session_id']).'.dat';
+		if(file_exists($file)) {
+			$data = file_get_contents($file);
+			$session = unserialize($data);
+		} else {
+			$session = array();
+		}
+		if(is_null($value)) {
+			unset($session[$name]);
+		} else {
+			$session[$name] = $value;
+		}
+		if(count($session)) {
+			$data = serialize($session);
+			return (bool)file_put_contents($file, $data);
+		} else {
+			return unlink($file);
+		}
 	}
 	
 	// Завершить сессию
