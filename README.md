@@ -19,6 +19,8 @@ ___
 	+ [bind_default_action](#bind_default_action)
 	+ [add_button](#add_button)
 	+ [add_message](#add_message)
+	+ [get_user_data](#get_user_data)
+	+ [set_user_data](#set_user_data)
 	+ [get_session](#get_session)
 	+ [set_session](#set_session)
 	+ [end_session](#end_session)
@@ -34,8 +36,8 @@ ___
 |Первая публичная версия | **08.01.2019**
 |Поддержка сервиса [Google Chatbase](#use_chatbase) | **09.01.2019**
 |Сохранение данных сессии | **05.02.2019**
+|[Сохранение](#set_user_data)/[получение](#get_user_data) данных пользователя | **05.02.2019**
 |Отправка сообщений с изображениями | ---
-|Сохранение данных пользователя | ---
 |Морфологический анализ слов | ---
 |Подключение Яндекс.Метрика | ---
 |Подключение AppMetrica | ---
@@ -171,6 +173,30 @@ ___
 
 	$alice->add_message('Среди этих двух сообщений');
 	$alice->add_message('Будет выбрано только одно', 'уже выбрано только одно');
+
+### get_user_data
+
+`public function get_user_data(string $name): string`
+
+Получить значение переменной из данных пользователя.
+
+`$name` - Имя переменной, значение которой необходимо получить. Строка. Обязательный параметр;
+
+	$user_name = $alice->get_user_data('name');
+
+### set_user_data
+
+`public function set_user_data(string $name, mixed $value): bool`
+
+Установить значение переменной в данных пользователя.
+
+`$name` - Имя переменной, значение которой необходимо установить. Строка. Обязательный параметр;
+
+`$value` - Значение переменной, которое необходимо установить. Если задать null, то переменная удалится. Любой тип. Обязательный параметр;
+
+	$alice->set_user_data('name', 'Иван');
+	$alice->set_user_data('items', array('Яблоки', 'Бананы', 'Молоко'));
+	$alice->set_user_data('notes', null);
 
 ### get_session
 

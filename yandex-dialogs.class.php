@@ -17,6 +17,7 @@ class YandexDialog {
 	private $chatbase = null;
 	private $cb_handled = false;
 
+	private $users_dir = 'users';
 	private $sessions_dir = 'sessions';
 
 	// Конструктор
@@ -36,6 +37,10 @@ class YandexDialog {
 			),
 			'version' => $version
 		);
+		// Создаем каталог пользователей (если он отсутствует)
+		if(!is_dir($this->users_dir)) {
+			mkdir($this->users_dir);
+		}
 		// Удаляем старые сессии
 		if(is_dir($this->sessions_dir)) {
 			if($dir = scandir($this->sessions_dir)) {
@@ -186,6 +191,41 @@ class YandexDialog {
 			return true;
 		}
 		return false;
+	}
+
+	// Получение данных пользователя
+	public function get_user_data($name) {
+		$file = $this->users_dir.'/'.md5($this->request['session']['user_id']).'.dat';
+		if(file_exists($file)) {
+			$data = file_get_contents($file);
+			$user = unserialize($data);
+			if(isset($user[$name])) {
+				return $user[$name];
+			}
+		}
+		return false;
+	}
+
+	// Сохранение данных пользователя
+	public function set_user_data($name, $value) {
+		$file = $this->users_dir.'/'.md5($this->request['session']['user_id']).'.dat';
+		if(file_exists($file)) {
+			$data = file_get_contents($file);
+			$user = unserialize($data);
+		} else {
+			$user = array();
+		}
+		if(is_null($value)) {
+			unset($user[$name]);
+		} else {
+			$user[$name] = $value;
+		}
+		if(count($user)) {
+			$data = serialize($user);
+			return (bool)file_put_contents($file, $data);
+		} else {
+			return unlink($file);
+		}
 	}
 
 	// Получение данных сессии
