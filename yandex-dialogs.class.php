@@ -223,8 +223,10 @@ class YandexDialog {
 		if(count($user)) {
 			$data = serialize($user);
 			return (bool)file_put_contents($file, $data);
-		} else {
+		} elseif(file_exists($file)) {
 			return unlink($file);
+		} else {
+			return true;
 		}
 	}
 
@@ -258,8 +260,10 @@ class YandexDialog {
 		if(count($session)) {
 			$data = serialize($session);
 			return (bool)file_put_contents($file, $data);
-		} else {
+		} elseif(file_exists($file)) {
 			return unlink($file);
+		} else {
+			return true;
 		}
 	}
 	
