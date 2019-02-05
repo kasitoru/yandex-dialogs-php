@@ -21,8 +21,8 @@ ___
 	+ [add_message](#add_message)
 	+ [get_user_data](#get_user_data)
 	+ [set_user_data](#set_user_data)
-	+ [get_session](#get_session)
-	+ [set_session](#set_session)
+	+ [get_session_data](#get_session_data)
+	+ [set_session_data](#set_session_data)
 	+ [end_session](#end_session)
 	+ [use_chatbase](#use_chatbase)
 	+ [chatbase_handled](#chatbase_handled)
@@ -198,19 +198,19 @@ ___
 	$alice->set_user_data('items', array('Яблоки', 'Бананы', 'Молоко'));
 	$alice->set_user_data('notes', null);
 
-### get_session
+### get_session_data
 
-`public function get_session(string $name): string`
+`public function get_session_data(string $name): string`
 
 Получить значение переменной из сессии пользователя.
 
 `$name` - Имя переменной, значение которой необходимо получить. Строка. Обязательный параметр;
 
-	$action = $alice->get_session('action');
+	$action = $alice->get_session_data('action');
 
-### set_session
+### set_session_data
 
-`public function set_session(string $name, mixed $value): bool`
+`public function set_session_data(string $name, mixed $value): bool`
 
 Установить значение переменной из сессии пользователя.
 
@@ -218,9 +218,9 @@ ___
 
 `$value` - Значение переменной, которое необходимо установить. Если задать null, то переменная удалится. Любой тип. Обязательный параметр;
 
-	$alice->set_session('action', 'start');
-	$alice->set_session('progress', array('step' => 2, 'place' => 'home'));
-	$alice->set_session('items', null);
+	$alice->set_session_data('action', 'start');
+	$alice->set_session_data('progress', array('step' => 2, 'place' => 'home'));
+	$alice->set_session_data('items', null);
 
 ### end_session
 

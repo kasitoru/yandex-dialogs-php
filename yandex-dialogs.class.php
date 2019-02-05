@@ -229,7 +229,7 @@ class YandexDialog {
 	}
 
 	// Получение данных сессии
-	public function get_session($name) {
+	public function get_session_data($name) {
 		$file = $this->sessions_dir.'/'.md5($this->request['session']['session_id']).'.dat';
 		if(file_exists($file)) {
 			$data = file_get_contents($file);
@@ -242,7 +242,7 @@ class YandexDialog {
 	}
 
 	// Сохранение данных сессии
-	public function set_session($name, $value) {
+	public function set_session_data($name, $value) {
 		$file = $this->sessions_dir.'/'.md5($this->request['session']['session_id']).'.dat';
 		if(file_exists($file)) {
 			$data = file_get_contents($file);
