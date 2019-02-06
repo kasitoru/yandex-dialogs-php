@@ -7,8 +7,6 @@
 */
 
 
-include_once 'libraries/chatbase.php';
-
 class YandexDialog {
 	
 	public $request = null;
@@ -251,6 +249,7 @@ class YandexDialog {
 	
 	// Использовать Google Chatbase
 	public function use_chatbase($api_key) {
+		include_once 'libraries/chatbase.php';
 		$this->chatbase = new ChatbaseAPI\Chatbase($api_key);
 	}
 	
@@ -318,6 +317,3 @@ class YandexDialog {
 	}
 	
 }
-
-
-?>
