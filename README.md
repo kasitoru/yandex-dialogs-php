@@ -16,6 +16,7 @@ ___
 	+ [bind_new_action](#bind_new_action)
 	+ [bind_words_action](#bind_words_action)
 	+ [bind_percentage_action](#bind_percentage_action)
+	+ [bind_suggestion_action](#bind_suggestion_action)
 	+ [bind_default_action](#bind_default_action)
 	+ [add_button](#add_button)
 	+ [add_message](#add_message)
@@ -43,6 +44,7 @@ ___
 |Подключение AppMetrica | ---
 |Подключение Google Analytics | ---
 |Анализ текста с помощью Томита-парсер | ---
+|Вложенные нелинейные сценарии | ---
 
 ## Примеры
 Примеры использования библиотеки находятся в папке [examples](/thesoultaker48/yandex-dialogs-php/tree/master/examples).
@@ -128,6 +130,25 @@ ___
 		...
 	}
 	$alice->bind_percentage_action(array(array('яблоко', 'груша'), 'апельсин'), 75, 'percentage_word_action');
+
+### bind_suggestion_action
+
+`public function bind_suggestion_action(string $text, int $percentage, string $action): bool`
+
+Связывает указанную функцию с событием превышения (или равенства) заданной процентной схожести предложения. В вызываемую функцию передается указатель на $this и найденное процентное значение. Работает на основе [bind_percentage_action](#bind_percentage_action).
+
+`$text` - Предложение для сравнения схожести. Строка. Обязательный параметр;
+
+`$percentage` - Процентное значение, при достижении которого выполняется указанная функция. Число. Обязательный параметр;
+
+`$action` - Имя функции, которой необходимо передавать управление. Строка. Обязательный параметр.
+
+	function suggestion_action($percent, $alice) {
+		...
+		some code
+		...
+	}
+	$alice->bind_suggestion_action('Очистить список покупок', 75, 'suggestion_action');
 
 ### bind_default_action
 

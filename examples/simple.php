@@ -11,7 +11,7 @@ include_once '../yandex-dialogs.class.php';
 
 $alice = new YandexDialog();
 
-// Все действия выполняем только если получили кореектные данные от Алисы
+// Все действия выполняем только если получили корректные данные от Алисы
 if($alice->get_request()) {
 
 	// Начало диалога
@@ -44,7 +44,8 @@ if($alice->get_request()) {
 		$alice->add_message('Ваша фраза совпала с [ожидаемой|заданной] на '.$percentage.'%!');
 	}
 	$alice->bind_percentage_action(array('как', array('называется', 'зовется'), array('твоя', 'ваша'), 'игра'), 60, '_game');
-	
+	//$alice->bind_suggestion_action('Как называется ваша игра?', 60, '_game'); // Можно и так, но без вариативности отдельных слов
+
 	// Неизвестная команда
 	function _default($alice) {
 		$alice->add_message('Я вас не понимаю! Лучше скажите, играть будем?');

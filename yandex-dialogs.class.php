@@ -152,6 +152,17 @@ class YandexDialog {
 		return false;
     }
 	
+	// Действие, выполняемое при удовлетворении процентной схожести предложения
+    public function bind_suggestion_action($text, $percentage, $action) {
+		$text = mb_strtolower($text);
+		// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
+		if(preg_match_all('/([0-9a-zа-яё]+)/u', $text, $words)) {
+			return bind_percentage_action($words, $percentage, $action);
+		} else {
+			return false;
+		}
+    }
+	
     // Действие, выполняемое по умолчанию (при отсутствии других действий)
     public function bind_default_action($action) {
         if(empty($this->response['response']['text'])) {
