@@ -37,10 +37,6 @@ class YandexDialog {
 			),
 			'version' => $version
 		);
-		// Создаем каталог пользователей (если он отсутствует)
-		if(!is_dir($this->users_dir)) {
-			mkdir($this->users_dir);
-		}
 		// Удаляем старые сессии
 		if(is_dir($this->sessions_dir)) {
 			if($dir = scandir($this->sessions_dir)) {
@@ -232,6 +228,9 @@ class YandexDialog {
 			$user[$name] = $value;
 		}
 		if(count($user)) {
+			if(!is_dir($this->users_dir)) {
+				mkdir($this->users_dir);
+			}
 			$data = serialize($user);
 			return (bool)file_put_contents($file, $data);
 		} elseif(file_exists($file)) {
