@@ -37,23 +37,6 @@ class YandexDialog {
 			),
 			'version' => $version
 		);
-		// Удаляем старые сессии
-		if(is_dir($this->sessions_dir)) {
-			if($dir = scandir($this->sessions_dir)) {
-				foreach($dir as $item) {
-					$file = $this->sessions_dir.'/'.$item;
-					if(is_file($file)) {
-						if(pathinfo($file, PATHINFO_EXTENSION) == 'dat') {
-							if(time() - filemtime($file) > 86400) {
-								unlink($file);
-							}
-						}
-					}
-				}
-			}
-		} else { // Или создаем каталог (если он отсутствует)
-			mkdir($this->sessions_dir);
-		}
 	}
 	
 	// Проверка запроса на признак служебного (ping, test и т.д.)
@@ -80,6 +63,8 @@ class YandexDialog {
 			$this->request = $data;
 		}
 		if(isset($this->request['version'])) {
+			session_id($this->request['session']['session_id']);
+			session_start();
 			$this->response['session']['session_id'] = $this->request['session']['session_id'];
 			$this->response['session']['message_id'] = $this->request['session']['message_id'];
 			$this->response['session']['user_id'] = $this->request['session']['user_id'];
@@ -242,39 +227,21 @@ class YandexDialog {
 
 	// Получение данных сессии
 	public function get_session_data($name) {
-		$file = $this->sessions_dir.'/'.md5($this->request['session']['session_id']).'.dat';
-		if(file_exists($file)) {
-			$data = file_get_contents($file);
-			$session = unserialize($data);
-			if(isset($session[$name])) {
-				return $session[$name];
-			}
+		if(isset($_SESSION[$name])) {
+			return $_SESSION[$name];
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	// Сохранение данных сессии
 	public function set_session_data($name, $value) {
-		$file = $this->sessions_dir.'/'.md5($this->request['session']['session_id']).'.dat';
-		if(file_exists($file)) {
-			$data = file_get_contents($file);
-			$session = unserialize($data);
-		} else {
-			$session = array();
-		}
 		if(is_null($value)) {
-			unset($session[$name]);
+			unset($_SESSION[$name]);
 		} else {
-			$session[$name] = $value;
+			$_SESSION[$name] = $value;
 		}
-		if(count($session)) {
-			$data = serialize($session);
-			return (bool)file_put_contents($file, $data);
-		} elseif(file_exists($file)) {
-			return unlink($file);
-		} else {
-			return true;
-		}
+		return true;
 	}
 	
 	// Завершить сессию
@@ -339,6 +306,10 @@ class YandexDialog {
 				);
 				$this->chatbase->sendall($chatbase);
 			}
+		}
+		// Уничтожение сессии
+		if($this->response['response']['end_session']) {
+			session_destroy();
 		}
 		// Выводим результат
 		header('Content-Type: application/json');
