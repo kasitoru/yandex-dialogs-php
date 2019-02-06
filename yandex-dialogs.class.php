@@ -18,7 +18,6 @@ class YandexDialog {
 	private $cb_handled = false;
 
 	private $users_dir = 'users';
-	private $sessions_dir = 'sessions';
 
 	// Конструктор
 	public function __construct($version='1.0') {
