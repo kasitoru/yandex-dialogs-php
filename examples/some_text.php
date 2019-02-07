@@ -1,0 +1,43 @@
+<?php
+
+/*
+	PHP библиотека для разработки навыков Яндекс.Алисы
+	Author: Sergey Avdeev <thesoultaker48@gmail.com>
+	URL: https://github.com/thesoultaker48/yandex-dialogs-php
+*/
+
+
+include_once '../yandex-dialogs.class.php';
+
+$alice = new YandexDialog();
+
+// Все действия выполняем только если получили корректные данные от Алисы
+if($alice->get_request()) {
+
+	// Начало диалога
+	function _new_session($alice) {
+		$alice->add_message('Здравствуйте! Как вас зовут?');
+	}
+	$alice->bind_new_action('_new_session');
+
+	// Действие по умолчанию
+	function _default($alice) {
+		$name = null;
+		if($name = $alice->get_some_text('меня зовут {name:word}')) { // Получаем имя из фразы "меня зовут ..."
+			$name = $name['name'];
+		} elseif(count($alice->request['request']['nlu']['tokens']) == 1) { // Если было названо только одно слово, то считаем что это имя
+			$name = $alice->request['request']['command'];
+		}
+		// Отвечаем пользователю
+		if($name) {
+			$alice->add_message('Рада с вами познакомиться, '.$name.'!');
+			$alice->end_session();
+		} else {
+			$alice->add_message('Извините, но я хочу узнать как вас зовут?');
+		}
+	}
+	$alice->bind_default_action('_default');
+
+	// Отправляем ответ и завершаем работу скрипта
+	$alice->finish(true);
+}
