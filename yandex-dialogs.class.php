@@ -188,7 +188,7 @@ class YandexDialog {
     }
 	
     // Добавить кнопку
-    public function add_button($title, $url=NULL, $payload=NULL, $hide=FALSE) {
+    public function add_button($title, $url=null, $payload=null, $hide=false) {
 		if(!empty($title)) {
 			$button = array(
 				'title' => mb_strimwidth($title, 0, 64),
