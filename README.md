@@ -8,29 +8,29 @@ ___
  1. [История версий / TODO](#todo)
  2. [Примеры использования](#%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B)
  3. [Описание свойств](#%D1%81%D0%B2%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%B0)
- 	+ [request](#request)
-	+ [response](#response)
+ 	+ [request](#request) - Содержит информацию о запросе пользователя;
+	+ [response](#response) - Содержит данные ответа на запрос пользователя;
  4. [Описание методов](#%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B)
- 	+ [Конструктор](#%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80)
-	+ [get_request](#get_request)
-	+ [get_some_text](#get_some_text)
-	+ [bind_new_action](#bind_new_action)
-	+ [bind_words_action](#bind_words_action)
-	+ [bind_percentage_action](#bind_percentage_action)
-	+ [bind_suggestion_action](#bind_suggestion_action)
-	+ [bind_default_action](#bind_default_action)
-	+ [add_button](#add_button)
-	+ [add_message](#add_message)
-	+ [get_user_data](#get_user_data)
-	+ [set_user_data](#set_user_data)
-	+ [get_session_data](#get_session_data)
-	+ [set_session_data](#set_session_data)
-	+ [end_session](#end_session)
-	+ [use_yametrika](#use_yametrika)
-	+ [yametrika_rgoal](#yametrika_rgoal)
-	+ [use_chatbase](#use_chatbase)
-	+ [chatbase_handled](#chatbase_handled)
-	+ [finish](#finish)
+ 	+ [Конструктор](#%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80) - Создание объекта класса YandexDialog;
+	+ [get_request](#get_request) - Получить информацию о запросе пользователя;
+	+ [get_some_text](#get_some_text) - Получает часть текста на основе заданных шаблонов;
+	+ [bind_new_action](#bind_new_action) - Связывает указанную функцию с событием начала нового диалога (новой сессии);
+	+ [bind_words_action](#bind_words_action) - Связывает указанную функцию с событием нахождения одного из заданных слов в запросе пользователя;
+	+ [bind_percentage_action](#bind_percentage_action) - Связывает указанную функцию с событием превышения заданного процентного нахождения слов в запросе пользователя;
+	+ [bind_suggestion_action](#bind_suggestion_action) - Связывает указанную функцию с событием превышения (или равенства) заданной процентной схожести предложения;
+	+ [bind_default_action](#bind_default_action) - Связывает указанную функцию с собитием отсутствия других действий;
+	+ [add_button](#add_button) - Добавляет кнопку в варианты ответа пользователя;
+	+ [add_message](#add_message) - Добавляет сообщение в список ответов;
+	+ [get_user_data](#get_user_data) - Получить значение переменной из данных пользователя;
+	+ [set_user_data](#set_user_data) - Установить значение переменной в данных пользователя;
+	+ [get_session_data](#get_session_data) - Получить значение переменной из сессии пользователя;
+	+ [set_session_data](#set_session_data) - Установить значение переменной из сессии пользователя;
+	+ [end_session](#end_session) - Завершает диалог с пользователем;
+	+ [use_yametrika](#use_yametrika) - Включает использование сервиса Яндекс.Метрика;
+	+ [yametrika_rgoal](#yametrika_rgoal) - Передача информации о достижении цели в Яндекс.Метрике;
+	+ [use_chatbase](#use_chatbase) - Включает использование сервиса Google Chatbase;
+	+ [chatbase_handled](#chatbase_handled) - Устанавливает значение флага handled для Google Chatbase;
+	+ [finish](#finish) - Производит некоторые подготовительные процедуры и отправляет ответ Яндекс.Диалогам;
  4. [Встроенные теги](#%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%82%D0%B5%D0%B3%D0%B8)
  5. [Используемые библиотеки](#%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D1%83%D0%B5%D0%BC%D1%8B%D0%B5-%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B8)
 
@@ -50,6 +50,7 @@ ___
 |Подключение Google Analytics | ---
 |Анализ текста с помощью Томита-парсер | ---
 |Вложенные нелинейные сценарии | ---
+|Расширение списка [встроенных тегов](#%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%82%D0%B5%D0%B3%D0%B8) | ---
 
 ## Примеры
 Примеры использования библиотеки находятся в папке [examples](/thesoultaker48/yandex-dialogs-php/tree/master/examples).
@@ -289,7 +290,7 @@ ___
 
 `public function yametrika_rgoal(string $target): bool`
 
-Передача информации о достижении цели. Более подробно читайте в [официальной документации сервиса](https://yandex.ru/support/metrika/general/goal-js-event.html#js-event).
+Передача информации о достижении цели в Яндекс.Метрике. Более подробно читайте в [официальной документации сервиса](https://yandex.ru/support/metrika/general/goal-js-event.html#js-event).
 
 `$target` - Идентификатор цели. Строка. Обязательный параметр.
 
@@ -333,5 +334,6 @@ ___
 
 ## Используемые библиотеки
 
-Chatbase PHP: https://gitlab.com/bhavyanshu/chatbase-php
-Server YaMetrika: https://github.com/thesoultaker48/server_yametrika
+Chatbase PHP (форк): https://github.com/thesoultaker48/chatbase-php
+
+Server YaMetrika (форк): https://github.com/thesoultaker48/server_yametrika
