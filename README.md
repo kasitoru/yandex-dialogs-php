@@ -26,6 +26,8 @@ ___
 	+ [get_session_data](#get_session_data)
 	+ [set_session_data](#set_session_data)
 	+ [end_session](#end_session)
+	+ [use_yametrika](#use_yametrika)
+	+ [yametrika_rgoal](#yametrika_rgoal)
 	+ [use_chatbase](#use_chatbase)
 	+ [chatbase_handled](#chatbase_handled)
 	+ [finish](#finish)
@@ -41,9 +43,9 @@ ___
 |[Сохранение](#get_session_data)/[получение](#set_session_data) данных сессии | **05.02.2019**
 |[Сохранение](#set_user_data)/[получение](#get_user_data) данных пользователя | **05.02.2019**
 |Получение части текста по шаблону ([get_some_text](#get_some_text)) | **07.02.2019**
+|Поддержка сервиса [Яндекс.Метрика](#use_yametrika) | **08.02.2019**
 |Отправка сообщений с изображениями | ---
 |Морфологический анализ слов | ---
-|Подключение Яндекс.Метрика | ---
 |Подключение AppMetrica | ---
 |Подключение Google Analytics | ---
 |Анализ текста с помощью Томита-парсер | ---
@@ -273,6 +275,26 @@ ___
 
 	$alice->end_session();
 
+### use_yametrika
+
+`public function use_yametrika(string $counter_id)`
+
+Включает использование сервиса [Яндекс.Метрика](https://metrika.yandex.ru/). Данные передаются в момент вызова метода [finish](#finish).
+
+`$counter_id` - ID счетчика, полученный в личном кабинете сервиса. Строка. Обязательный параметр.
+
+	$alice->use_yametrika('YOU_COUNTER_ID');
+
+### yametrika_rgoal
+
+`public function yametrika_rgoal(string $target): bool`
+
+Передача информации о достижении цели. Более подробно читайте в [официальной документации сервиса](https://yandex.ru/support/metrika/general/goal-js-event.html#js-event).
+
+`$target` - Идентификатор цели. Строка. Обязательный параметр.
+
+	$alice->yametrika_rgoal('my_target');
+
 ### use_chatbase
 
 `public function use_chatbase(string $api_key)`
@@ -312,3 +334,4 @@ ___
 ## Используемые библиотеки
 
 Chatbase PHP: https://gitlab.com/bhavyanshu/chatbase-php
+Server YaMetrika: https://github.com/thesoultaker48/server_yametrika
