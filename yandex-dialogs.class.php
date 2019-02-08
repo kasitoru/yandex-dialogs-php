@@ -76,41 +76,41 @@ class YandexDialog {
 	}
 	
 	// Получение части текста на основе шаблона
-	public function get_some_text($pattern, $text=null) {
-		$pattern = preg_quote($pattern);
-		$text = $text ?? $this->request['request']['command'];
-		if(preg_match_all('/\\\{([0-9a-z_\\\:]+)\\\}/', $pattern, $matches)) {
-			$m_names = array();
-			for($i=0;$i<count($matches[0]);$i++) {
-				$match = explode('\:', $matches[1][$i], 2);
-				$m_names[] = $match[0];
-				$m_type = $match[1];
-				switch($m_type) {
-					case 'int':
-						$m_pattern = '(\d+)';
-						break;
-					case 'word':
-						$m_pattern = '(\S+)(?:.*)';
-						break;
-					default:
-						$m_pattern = '(.+)';
+	public function get_some_text($patterns, $text=null) {
+		if(!is_array($patterns)) $patterns = array($patterns);
+		foreach($patterns as $pattern) {
+			$pattern = preg_quote($pattern);
+			$text = $text ?? $this->request['request']['command'];
+			if(preg_match_all('/\\\{([0-9a-z_\\\:]+)\\\}/', $pattern, $matches)) {
+				$m_names = array();
+				for($i=0;$i<count($matches[0]);$i++) {
+					$match = explode('\:', $matches[1][$i], 2);
+					$m_names[] = $match[0];
+					$m_type = $match[1];
+					switch($m_type) {
+						case 'int':
+							$m_pattern = '(\d+)';
+							break;
+						case 'word':
+							$m_pattern = '(\S+)(?:.*)';
+							break;
+						default:
+							$m_pattern = '(.+)';
+					}
+					$pattern = str_replace($matches[0][$i], $m_pattern, $pattern);
 				}
-				$pattern = str_replace($matches[0][$i], $m_pattern, $pattern);
-			}
-			$pattern = str_replace('\{\*\}', '(?:.*)', $pattern);
-			if(preg_match_all('/'.$pattern.'/ui', $text, $matches)) {
-				$matches = array_slice($matches, 1);
-				$results = array();
-				foreach($m_names as $i => $name) {
-					$results[$name] = $matches[$i][0];
+				$pattern = str_replace('\{\*\}', '(?:.*)', $pattern);
+				if(preg_match_all('/'.$pattern.'/ui', $text, $matches)) {
+					$matches = array_slice($matches, 1);
+					$results = array();
+					foreach($m_names as $i => $name) {
+						$results[$name] = $matches[$i][0];
+					}
+					return $results;
 				}
-				return $results;
-			} else {
-				return false;
 			}
-		} else {
-			return false;
 		}
+		return false;
 	}
 	
 	// Действие, выполняемое при старте новой сессии
