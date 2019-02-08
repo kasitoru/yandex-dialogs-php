@@ -44,11 +44,11 @@ ___
 |[Сохранение](#set_user_data)/[получение](#get_user_data) данных пользователя | **05.02.2019**
 |Получение части текста по шаблону ([get_some_text](#get_some_text)) | **07.02.2019**
 |Поддержка сервиса [Яндекс.Метрика](#use_yametrika) | **08.02.2019**
-|Отправка сообщений с изображениями | ---
-|Морфологический анализ слов | ---
-|Подключение AppMetrica | ---
-|Подключение Google Analytics | ---
-|Анализ текста с помощью Томита-парсер | ---
+|Отправка [сообщений с изображениями](https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) | ---
+|Морфологический анализ слов с помощью [phpMorphy](https://github.com/heromantor/phpmorphy) | ---
+|Поддержка сервиса [AppMetrica](https://appmetrica.yandex.ru/) | ---
+|Поддержка сервиса [Google Analytics](https://analytics.google.com/) | ---
+|Анализ текста с помощью [Томита-парсер](https://tech.yandex.ru/tomita/) | ---
 |Вложенные нелинейные сценарии | ---
 |Расширение списка [встроенных тегов](#%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%82%D0%B5%D0%B3%D0%B8) | ---
 
