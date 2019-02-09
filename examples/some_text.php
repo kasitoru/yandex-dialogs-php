@@ -39,5 +39,6 @@ if($alice->get_request()) {
 	$alice->bind_default_action('_default');
 
 	// Отправляем ответ и завершаем работу скрипта
-	$alice->finish(true);
+	$alice->finish();
+	exit;
 }

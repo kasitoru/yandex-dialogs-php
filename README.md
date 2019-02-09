@@ -318,15 +318,13 @@ ___
 
 ### finish
 
-`public function finish(bool $die=false, bool $return=false): bool`
+`public function finish(bool $return=false): bool`
 
 Производит некоторые подготовительные процедуры и отправляет ответ Яндекс.Диалогам.
 
-`$die` - Завершить работу скрипта после отправки. Логическое. Не обязательно. По-умолчанию: false.
-
 `$return` - Возвратить ответ (вместо вывода на экран). Логическое. Не обязательно. По-умолчанию: false.
 
-	$alice->finish(true);
+	$alice->finish();
 
 ## Встроенные теги
 
