@@ -289,7 +289,7 @@ class YandexDialog {
 
 	// Использовать Яндекс.Метрику
 	public function use_yametrika($counter_id) {
-		$this->yametrika = new \ServerYaMetrika\YaMetrika\YaMetrika($counter_id);
+		$this->yametrika = new \ServerYaMetrika\YaMetrika($counter_id);
 	}
 	
 	// Получение параметров визита
@@ -312,7 +312,7 @@ class YandexDialog {
 
 	// Использовать Google Chatbase
 	public function use_chatbase($api_key) {
-		$this->chatbase = new \ChatbaseAPI\Chatbase\Chatbase($api_key);
+		$this->chatbase = new \ChatbaseAPI\Chatbase($api_key);
 	}
 
 	// Установить значение флага "handled"
@@ -353,7 +353,7 @@ class YandexDialog {
 		// Яндекс.Метрика
 		if($this->yametrika) {
 			if(!$this->is_ping()) {
-				$yametrika_session = $this->get_session_data('__yametrika');
+				$__yametrika = $this->get_session_data('__yametrika');
 				$crc8 = new \PBurggraf\CRC\CRC8\CRC8();
 				$fake_ip = array(
 					$crc8->calculate(substr($this->request['session']['user_id'], 0, 16)),
@@ -365,9 +365,9 @@ class YandexDialog {
 				$this->yametrika->userAgent = $this->request['meta']['client_id'];
 				$url = 'alice://'.$this->request['request']['command'].'/'.substr($this->response['response']['text'], 0, 64);
 				$params = $this->yametrika_params();
-				$this->yametrika->hit($url, $this->request['session']['skill_id'], $yametrika['referer'], $params);
-				$yametrika['referer'] = $url;
-				$this->set_session_data('__yametrika', $yametrika);
+				$this->yametrika->hit($url, $this->request['session']['skill_id'], $__yametrika['referer'], $params);
+				$__yametrika['referer'] = $url;
+				$this->set_session_data('__yametrika', $__yametrika);
 			}
 		}
 		// Google Chatbase
