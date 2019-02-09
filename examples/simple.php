@@ -7,7 +7,7 @@
 */
 
 
-include_once '../yandex-dialogs.class.php';
+use YandexStation\YandexDialog;
 
 $alice = new YandexDialog();
 
