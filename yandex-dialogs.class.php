@@ -326,7 +326,7 @@ class YandexDialog {
 	}
 	
 	// Отправляем ответ пользователю
-	public function finish($die=false) {
+	public function finish($die=false, $return=false) {
 		if(!empty($this->response['response']['text'])) {
 			// Выбираем случайную фразу из всего набора
 			$random = rand(0, count($this->response['response']['text'])-1);
@@ -423,10 +423,15 @@ class YandexDialog {
 			session_destroy();
 		}
 		// Выводим результат
-		header('Content-Type: application/json');
-		echo json_encode($this->response);
-		if($die) exit;
-		return !isset($error);
+		$json = json_encode($this->response);
+		if($return) {
+			return $json;
+		} else {
+			header('Content-Type: application/json');
+			echo $json;
+			if($die) exit;
+			return !isset($error);
+		}
 	}
 	
 }
