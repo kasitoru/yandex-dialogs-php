@@ -1,7 +1,7 @@
 {
     "name": "thesoultaker48/yandex-dialogs-php",
     "description": "PHP library for the development skills of Yandex.Alice",
-    "license": "Apache License 2.0",
+    "license": "Apache-2.0",
     "keywords": ["yandex-alice", "yandex-dialogs"],
     "homepage": "https://github.com/thesoultaker48/yandex-dialogs-php",
     "authors": [
