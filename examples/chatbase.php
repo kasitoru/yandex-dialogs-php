@@ -6,7 +6,7 @@
 	URL: https://github.com/thesoultaker48/yandex-dialogs-php
 */
 
-
+include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
 use YandexStation\YandexDialog;
 
 $alice = new YandexDialog();
