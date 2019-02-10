@@ -334,7 +334,7 @@ ___
 
 ## Используемые библиотеки
 
-Chatbase PHP (форк): https://github.com/thesoultaker48/chatbase-php
+Chatbase PHP: https://gitlab.com/bhavyanshu/chatbase-php
 
 Server YaMetrika (форк): https://github.com/thesoultaker48/server_yametrika
 
