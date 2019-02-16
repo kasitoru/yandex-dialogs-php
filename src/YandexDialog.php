@@ -12,12 +12,11 @@ class YandexDialog {
 	
 	public $request = null;
 	public $response = null;
+	public $users_dir = 'users';
 	
 	private $yametrika = null;
 	private $chatbase = null;
 	private $cb_handled = false;
-
-	private $users_dir = 'users';
 
 	// Конструктор
 	public function __construct($version='1.0') {
