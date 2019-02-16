@@ -175,7 +175,7 @@ class YandexDialog {
 		$text = mb_strtolower($text);
 		// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
 		if(preg_match_all('/([0-9a-zа-яё]+)/u', $text, $words)) {
-			return bind_percentage_action($words, $percentage, $action);
+			return $this->bind_percentage_action($words, $percentage, $action);
 		} else {
 			return false;
 		}
