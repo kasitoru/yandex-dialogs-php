@@ -105,7 +105,7 @@ ___
 
 	$text = 'Меня зовут Иван Иванов. Мне сейчас 25 лет.';
 	
-	$name = $alice->get_some_text(array('Меня зовут {name1:word}', 'Мое имя {name1:word}'), $text); // ['name1' => 'Иван']
+	$name = $alice->get_some_text(['Меня зовут {name1:word}', 'Мое имя {name1:word}'], $text); // ['name1' => 'Иван']
 	// Если шаблон один, то можно передавать его строкой
 	$name = $alice->get_some_text('Меня зовут {name1:word}', $text); // ['name1' => 'Иван']
 	$name = $alice->get_some_text('Меня зовут {name2}.', $text); // ['name2' => 'Иван Иванов']
@@ -174,7 +174,7 @@ ___
 		some code
 		...
 	}
-	$alice->bind_words_action(array('яблоко', 'груша', 'апельсин'), 'find_word_action');
+	$alice->bind_words_action(['яблоко', 'груша', 'апельсин'], 'find_word_action');
 
 ### bind_percentage_action
 
@@ -193,7 +193,7 @@ ___
 		some code
 		...
 	}
-	$alice->bind_percentage_action(array(array('яблоко', 'груша'), 'апельсин'), 75, 'percentage_word_action');
+	$alice->bind_percentage_action([['яблоко', 'груша'], 'апельсин'], 75, 'percentage_word_action');
 
 ### bind_suggestion_action
 
@@ -244,7 +244,7 @@ ___
 `$hide` - Признак того, что кнопку нужно убрать после следующей реплики пользователя. Логическое. Не обязательно. По-умолчанию: false.
 
 	$alice->add_button('Открой Яндекс', 'http://yandex.ru');
-	$alice->add_button('Сделать заказ', null, array('item' => 42, 'price' => 100), true);
+	$alice->add_button('Сделать заказ', null, ['item' => 42, 'price' => 100], true);
 
 ### add_message
 
@@ -280,7 +280,7 @@ ___
 `$value` - Значение переменной, которое необходимо установить. Если задать null, то переменная удалится. Любой тип. Обязательный параметр;
 
 	$alice->set_user_data('name', 'Иван');
-	$alice->set_user_data('items', array('Яблоки', 'Бананы', 'Молоко'));
+	$alice->set_user_data('items', ['Яблоки', 'Бананы', 'Молоко']);
 	$alice->set_user_data('notes', null);
 
 ### get_session_data
@@ -304,7 +304,7 @@ ___
 `$value` - Значение переменной, которое необходимо установить. Если задать null, то переменная удалится. Любой тип. Обязательный параметр;
 
 	$alice->set_session_data('action', 'start');
-	$alice->set_session_data('progress', array('step' => 2, 'place' => 'home'));
+	$alice->set_session_data('progress', ['step' => 2, 'place' => 'home']);
 	$alice->set_session_data('items', null);
 
 ### end_session

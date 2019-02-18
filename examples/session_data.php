@@ -27,14 +27,14 @@ if($alice->get_request()) {
 		$alice->add_message('Понятно! Мне, если честно, холод тоже не по душе! А как на счет лета?');
 		$alice->set_session_data('winter', 'no');
 	}
-	$alice->bind_words_action(array('не', 'нет'), '_no');
+	$alice->bind_words_action(['не', 'нет'], '_no');
 	
 	// Пользователь ответил "да" - сохраним эти данные в переменной "winter"
 	function _yes($tokens, $alice) {
 		$alice->add_message('Вот как? Тогда расскажите, за что вы ее любите?');
 		$alice->set_session_data('winter', 'yes');
 	}
-	$alice->bind_words_action(array('да', 'люблю'), '_yes');
+	$alice->bind_words_action(['да', 'люблю'], '_yes');
 
 	// Неизвестная команда (получим информацию о предыдущих ответах пользователя)
 	function _default($alice) {

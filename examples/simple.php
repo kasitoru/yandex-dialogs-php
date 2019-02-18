@@ -27,7 +27,7 @@ if($alice->get_request()) {
 		$alice->add_message('Очень жаль!');
 		$alice->end_session();
 	}
-	$alice->bind_words_action(array('не', 'нет'), '_no');
+	$alice->bind_words_action(['не', 'нет'], '_no');
 	
 	// Пример ответа при наличии одного из заданных слов
 	function _yes($tokens, $alice) {
@@ -36,14 +36,14 @@ if($alice->get_request()) {
 		$alice->add_message('Как я поняла, вы ответили "'.implode(', ', $tokens).'"!');
 		$alice->add_message('Ваш ответ был "'.implode(', ', $tokens).'"!');
 	}
-	$alice->bind_words_action(array('хочу', 'да'), '_yes');
+	$alice->bind_words_action(['хочу', 'да'], '_yes');
 
 	// Ответ при одновременном наличии нескольких слов
 	function _game($percentage, $alice) {
 		// Из нескольких слов в теге [word1|word2...] будет выбрано только одно случайное
 		$alice->add_message('Ваша фраза совпала с [ожидаемой|заданной] на '.$percentage.'%!');
 	}
-	$alice->bind_percentage_action(array('как', array('называется', 'зовется'), array('твоя', 'ваша'), 'игра'), 60, '_game');
+	$alice->bind_percentage_action(['как', ['называется', 'зовется'], ['твоя', 'ваша'], 'игра'], 60, '_game');
 	//$alice->bind_suggestion_action('Как называется ваша игра?', 60, '_game'); // Можно и так, но без вариативности отдельных слов
 
 	// Неизвестная команда

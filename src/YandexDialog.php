@@ -21,30 +21,30 @@ class YandexDialog {
 	// Конструктор
 	public function __construct($version='1.0') {
 		// Подготавливаем тело ответа
-		$this->response = array(
-			'response' => array(
+		$this->response = [
+			'response' => [
 				'text' => null,
 				'tts' => null,
-				'buttons' => array(),
+				'buttons' => [],
 				'end_session' => false
-			),
-			'session' => array(
+			],
+			'session' => [
 				'session_id' => null,
 				'message_id' => null,
 				'user_id' => null
-			),
+			],
 			'version' => $version
-		);
+		];
 	}
 	
 	// Проверка запроса на признак служебного (ping, test и т.д.)
 	private function is_ping() {
 		if(isset($this->request['version'])) {
 			if($this->request['session']['new']) {
-				$pings = array(
+				$pings = [
 					'ping' => 'pong',
 					'test' => 'ok',
-				);
+				];
 				if(array_key_exists($this->request['request']['original_utterance'], $pings)) {
 					return $pings[$this->request['request']['original_utterance']];
 				}
@@ -78,12 +78,12 @@ class YandexDialog {
 	
 	// Получение части текста на основе шаблона
 	public function get_some_text($patterns, $text=null) {
-		if(!is_array($patterns)) $patterns = array($patterns);
+		if(!is_array($patterns)) $patterns = [$patterns];
 		foreach($patterns as $pattern) {
 			$pattern = preg_quote($pattern);
 			$text = $text ?? $this->request['request']['command'];
 			if(preg_match_all('/\\\{([0-9a-z_\\\:]+)\\\}/', $pattern, $matches)) {
-				$m_names = array();
+				$m_names = [];
 				for($i=0;$i<count($matches[0]);$i++) {
 					$match = explode('\:', $matches[1][$i], 2);
 					$m_names[] = $match[0];
@@ -103,7 +103,7 @@ class YandexDialog {
 				$pattern = str_replace('\{\*\}', '(?:.*)', $pattern);
 				if(preg_match_all('/'.$pattern.'/ui', $text, $matches)) {
 					$matches = array_slice($matches, 1);
-					$results = array();
+					$results = [];
 					foreach($m_names as $i => $name) {
 						$results[$name] = $matches[$i][0];
 					}
@@ -202,10 +202,10 @@ class YandexDialog {
     // Добавить кнопку
     public function add_button($title, $url=null, $payload=null, $hide=false) {
 		if(!empty($title)) {
-			$button = array(
+			$button = [
 				'title' => mb_strimwidth($title, 0, 64),
 				'hide' => $hide
-			);
+			];
 			if(!is_null($url)) {
 				$button['url'] = substr($url, 0, 1024);
 			}
@@ -252,7 +252,7 @@ class YandexDialog {
 			$data = file_get_contents($file);
 			$user = unserialize($data);
 		} else {
-			$user = array();
+			$user = [];
 		}
 		if(is_null($value)) {
 			unset($user[$name]);
@@ -304,11 +304,11 @@ class YandexDialog {
 	
 	// Получение параметров визита
 	private function yametrika_params() {
-		return array(
+		return [
 			'user_id' => $this->request['session']['user_id'],
 			'message_id' => $this->request['session']['message_id'],
 			'session_id' => $this->request['session']['session_id'],
-		);
+		];
 	}
 	
 	// Передача информации о достижении цели
@@ -365,12 +365,12 @@ class YandexDialog {
 			if(!$this->is_ping()) {
 				$__yametrika = $this->get_session_data('__yametrika');
 				$crc8 = new \PBurggraf\CRC\CRC8\CRC8();
-				$fake_ip = array(
+				$fake_ip = [
 					$crc8->calculate(substr($this->request['session']['user_id'], 0, 16)),
 					$crc8->calculate(substr($this->request['session']['user_id'], 16, 16)),
 					$crc8->calculate(substr($this->request['session']['user_id'], 32, 16)),
 					$crc8->calculate(substr($this->request['session']['user_id'], 48, 16))
-				);
+				];
 				$this->yametrika->userIP = implode('.', $fake_ip);
 				$this->yametrika->userAgent = $this->request['meta']['client_id'];
 				$url = 'alice://'.$this->request['request']['command'].'/'.substr($this->response['response']['text'], 0, 64);
