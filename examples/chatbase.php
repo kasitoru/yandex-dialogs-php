@@ -25,7 +25,7 @@ if($alice->get_request()) {
 	$alice->bind_new_action('_new_session');
 
 	// Ответ пользователя распознан
-	function _robot($token, $alice) {
+	function _robot($tokens, $alice) {
 		$alice->add_message('Я так и знал!');
 	}
 	$alice->bind_words_action(array('робот'), '_robot');

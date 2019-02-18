@@ -138,13 +138,8 @@ class YandexDialog {
     // Действие, выполняемое при наличии определенных слов
     public function bind_words_action($words, $action) {
 		if(empty($this->response['response']['text'])) {
-			if($tokens = $this->request['request']['nlu']['tokens']) {
-                foreach($tokens as $token) {
-                    if(in_array($token, $words)) {
-                        return $action($token, $this);
-                        break;
-                    }
-                }
+			if($tokens = array_intersect($words, $this->request['request']['nlu']['tokens'])) {
+				return $action($tokens, $this);
 			}
 		}
 		return false;

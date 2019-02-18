@@ -23,14 +23,14 @@ if($alice->get_request()) {
 	$alice->bind_new_action('_new_session');
 	
 	// Пользователь ответил "нет" - сохраним эти данные в переменной "winter"
-	function _no($token, $alice) {
+	function _no($tokens, $alice) {
 		$alice->add_message('Понятно! Мне, если честно, холод тоже не по душе! А как на счет лета?');
 		$alice->set_session_data('winter', 'no');
 	}
 	$alice->bind_words_action(array('не', 'нет'), '_no');
 	
 	// Пользователь ответил "да" - сохраним эти данные в переменной "winter"
-	function _yes($token, $alice) {
+	function _yes($tokens, $alice) {
 		$alice->add_message('Вот как? Тогда расскажите, за что вы ее любите?');
 		$alice->set_session_data('winter', 'yes');
 	}

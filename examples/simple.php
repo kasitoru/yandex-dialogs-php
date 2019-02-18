@@ -23,18 +23,18 @@ if($alice->get_request()) {
 	$alice->bind_new_action('_new_session');
 	
 	// Пример завершения сессии
-	function _no($token, $alice) {
+	function _no($tokens, $alice) {
 		$alice->add_message('Очень жаль!');
 		$alice->end_session();
 	}
 	$alice->bind_words_action(array('не', 'нет'), '_no');
 	
 	// Пример ответа при наличии одного из заданных слов
-	function _yes($token, $alice) {
+	function _yes($tokens, $alice) {
 		$alice->add_button('Как называется игра?');
 		// Будет выбран только один случайный ответ
-		$alice->add_message('Как я поняла, вы ответили "'.$token.'"!');
-		$alice->add_message('Ваш ответ был "'.$token.'"!');
+		$alice->add_message('Как я поняла, вы ответили "'.implode(', ', $tokens).'"!');
+		$alice->add_message('Ваш ответ был "'.implode(', ', $tokens).'"!');
 	}
 	$alice->bind_words_action(array('хочу', 'да'), '_yes');
 
