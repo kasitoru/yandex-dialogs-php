@@ -13,6 +13,7 @@ class YandexDialog {
 	public $request = null;
 	public $response = null;
 	public $users_dir = 'users';
+	public $sentences = false;
 	
 	private $yametrika = null;
 	private $chatbase = null;
@@ -114,19 +115,30 @@ class YandexDialog {
 		return false;
 	}
 	
+	// Разбивает предложение на массив слов
+	public function get_sentence_words($text) {
+		// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
+		$text = mb_strtolower($text);
+		if(preg_match_all('/([0-9a-zа-яё]+)/u', $text, $words)) {
+			return $words[1];
+		}
+		return false;
+	}
+		
 	// Получить процентное содержание слов в массиве
-	public function get_words_percentage($words, $tokens) {
+	public function words_percentage($words, $tokens) {
 		$matches = 0;
 		foreach($words as $word) {
 			foreach($tokens as $token) {
-				$token = mb_strtolower($token);
 				if(is_array($word)) {
-					if(in_array($token, array_map('strtolower', $word))) {
-						$matches++;
-						break;
+					foreach($word as $item) {
+						if($this->compare_words($token, $item)) {
+							$matches++;
+							break 2;
+						}
 					}
 				} else {
-					if($token == mb_strtolower($word)) {
+					if($this->compare_words($token, $word)) {
 						$matches++;
 						break;
 					}
@@ -137,23 +149,28 @@ class YandexDialog {
 	}
 	
 	// Получить процентную схожесть предложения с массивом слов
-	public function get_suggestion_percentage($text, $tokens) {
-		if($words = $this->get_suggestion_words($text)) {
-			return $this->get_words_percentage($words, $tokens);
+	public function sentence_percentage($text, $tokens) {
+		if($words = $this->get_sentence_words($text)) {
+			return $this->words_percentage($words, $tokens);
 		}
 		return false;
+	}
+
+	// Сравнение схожести двух слов
+	public function compare_words($first, $second) {
+		return strcmp(mb_strtolower($first), mb_strtolower($second)) == 0;
 	}
 	
-	// Разбивает предложение на массив слов
-	public function get_suggestion_words($text) {
-		// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
-		$text = mb_strtolower($text);
-		if(preg_match_all('/([0-9a-zа-яё]+)/u', $text, $words)) {
-			return $words[1];
-		}
-		return false;
-	}
+	// Определение процента схожести двух предложений
+	public function compare_sentences($first, $second) {
+		$first = $this->get_sentence_words($first);
+		$second = $this->get_sentence_words($second);
+		$count = max(count($first), count($second));
+		$intersect = array_intersect($first, $second);
+		return count($intersect)/($count/100);
 		
+	}
+
 	// Проверка признака старта новой сессии
 	public function is_new_session() {
 		return $this->request['session']['new'];
@@ -178,18 +195,27 @@ class YandexDialog {
     // Действие, выполняемое при наличии определенных слов
     public function bind_words_action($words, $action) {
 		if(empty($this->response['response']['text'])) {
-			if($tokens = array_intersect($words, $this->request['request']['nlu']['tokens'])) {
+			$tokens = [];
+			foreach($words as $word) {
+				foreach($this->request['request']['nlu']['tokens'] as $token) {
+					if($this->compare_words($word, $token)) {
+						$tokens[] = mb_strtolower($token);
+					}
+				}
+			}
+			if(count($tokens)>0) {
+				$tokens = array_unique($tokens, SORT_STRING);
 				return $action($tokens, $this);
 			}
 		}
 		return false;
     }
-	
+
 	// Действие, выполняемое при удовлетворении процентного содержания определенных слов
     public function bind_percentage_action($words, $percentage, $action) {
 		if(empty($this->response['response']['text'])) {
 			if($tokens = $this->request['request']['nlu']['tokens']) {
-				$match = $this->get_words_percentage($words, $tokens);
+				$match = $this->words_percentage($words, $tokens);
 				if($match >= $percentage) {
 					return $action($match, $this);
 				}
@@ -199,12 +225,22 @@ class YandexDialog {
     }
 
 	// Действие, выполняемое при удовлетворении процентной схожести предложения
-    public function bind_suggestion_action($text, $percentage, $action) {
-		if($words = $this->get_suggestion_words($text)) {
-			return $this->bind_percentage_action($words, $percentage, $action);
-		} else {
-			return false;
+    public function bind_sentence_action($text, $percentage, $action) {
+		if(empty($this->response['response']['text'])) {
+			if($this->sentences) {
+				$match = $this->compare_sentences($text, $this->request['request']['command']);
+				if($match >= $percentage) {
+					return $action($match, $this);
+				}
+			} else {
+				if($words = $this->get_sentence_words($text)) {
+					return $this->bind_percentage_action($words, $percentage, $action);
+				} else {
+					return false;
+				}
+			}
 		}
+		return false;
     }
 	
     // Действие, выполняемое по умолчанию (при отсутствии других действий)
