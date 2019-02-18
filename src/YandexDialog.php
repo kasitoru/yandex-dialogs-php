@@ -136,6 +136,14 @@ class YandexDialog {
 		return $matches/(count($words)/100);
 	}
 	
+	// Получить процентную схожесть предложения с массивом слов
+	public function get_suggestion_percentage($text, $tokens) {
+		if($words = $this->get_suggestion_words($text)) {
+			return $this->get_words_percentage($words, $tokens);
+		}
+		return false;
+	}
+	
 	// Разбивает предложение на массив слов
 	public function get_suggestion_words($text) {
 		// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
@@ -145,7 +153,7 @@ class YandexDialog {
 		}
 		return false;
 	}
-	
+		
 	// Проверка признака старта новой сессии
 	public function is_new_session() {
 		return $this->request['session']['new'];

@@ -16,6 +16,7 @@ ___
 	+ [get_request](#get_request) - Получить информацию о запросе пользователя;
 	+ [get_some_text](#get_some_text) - Получает часть текста на основе заданных шаблонов;
 	+ [get_words_percentage](#get_words_percentage) - Получить процентное содержание слов в массиве;
+	+ [get_suggestion_percentage](#get_suggestion_percentage) - Получить процентную схожесть предложения с массивом слов;
 	+ [get_suggestion_words](#get_suggestion_words) - Разбивает предложение на массив слов;
 	+ [is_new_session](#is_new_session) - Проверка признака старта новой сессии;
 	+ [is_cmd_start](#is_cmd_start) - Проверка наличия запроса, переданного вместе с командой активации навыка;
@@ -124,6 +125,18 @@ ___
 `$tokens` - Строки для сравнения. Массив. Обязательный параметр;
 
 	$percentage = $alice->get_words_percentage([['раз', 'один'], 'два', 'три'], ['три', 'четыре', 'пять']); // ~33%
+	
+### get_suggestion_percentage
+
+`public function get_suggestion_percentage(string $text, array $tokens): int`
+
+Получить процентную схожесть предложения с заданным массивом слов. Регистр не учитывается.
+
+`$text` - Исходный текст. Строка. Обязательный параметр;
+
+`$tokens` - Строки для сравнения. Массив. Обязательный параметр;
+
+	$percentage = $alice->get_suggestion_percentage('Сколько сейчас времени?', ['сколько', 'времени']); // ~66%
 
 ### get_suggestion_words
 
