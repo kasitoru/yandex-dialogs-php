@@ -136,6 +136,16 @@ class YandexDialog {
 		return $matches/(count($words)/100);
 	}
 	
+	// Разбивает предложение на массив слов
+	public function get_suggestion_words($text) {
+		// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
+		$text = mb_strtolower($text);
+		if(preg_match_all('/([0-9a-zа-яё]+)/u', $text, $words)) {
+			return $words[1];
+		}
+		return false;
+	}
+	
 	// Проверка признака старта новой сессии
 	public function is_new_session() {
 		return $this->request['session']['new'];
@@ -179,12 +189,10 @@ class YandexDialog {
 		}
 		return false;
     }
-	
+
 	// Действие, выполняемое при удовлетворении процентной схожести предложения
     public function bind_suggestion_action($text, $percentage, $action) {
-		$text = mb_strtolower($text);
-		// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
-		if(preg_match_all('/([0-9a-zа-яё]+)/u', $text, $words)) {
+		if($words = $this->get_suggestion_words($text)) {
 			return $this->bind_percentage_action($words, $percentage, $action);
 		} else {
 			return false;

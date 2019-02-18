@@ -16,6 +16,7 @@ ___
 	+ [get_request](#get_request) - Получить информацию о запросе пользователя;
 	+ [get_some_text](#get_some_text) - Получает часть текста на основе заданных шаблонов;
 	+ [get_words_percentage](#get_words_percentage) - Получить процентное содержание слов в массиве;
+	+ [get_suggestion_words](#get_suggestion_words) - Разбивает предложение на массив слов;
 	+ [is_new_session](#is_new_session) - Проверка признака старта новой сессии;
 	+ [is_cmd_start](#is_cmd_start) - Проверка наличия запроса, переданного вместе с командой активации навыка;
 	+ [bind_new_action](#bind_new_action) - Связывает указанную функцию с событием начала нового диалога (новой сессии);
@@ -123,6 +124,16 @@ ___
 `$tokens` - Строки для сравнения. Массив. Обязательный параметр;
 
 	$percentage = $alice->get_words_percentage([['раз', 'один'], 'два', 'три'], ['три', 'четыре', 'пять']); // ~33%
+
+### get_suggestion_words
+
+`public function get_suggestion_words(string $text): array`
+
+Разбивает предложение на массив слов в нижнем регистре.
+
+`$text` - Исходный текст. Строка. Обязательный параметр;
+
+	$words = $alice->get_suggestion_words('Привет! Меня зовут Иван.'); // ['привет', 'меня', 'зовут', 'иван']
 
 ### is_new_session
 
