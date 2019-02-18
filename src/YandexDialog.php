@@ -114,10 +114,20 @@ class YandexDialog {
 		return false;
 	}
 	
+	// Проверка признака старта новой сессии
+	public function is_new_session() {
+		return $this->request['session']['new'];
+	}
+	
+	// Проверка запуска с помощью "Алиса попроси/скажи..."
+	public function is_cmd_start() {
+		return $this->is_new_session() && !empty($this->request['request']['command']);
+	}
+	
 	// Действие, выполняемое при старте новой сессии
 	public function bind_new_action($action) {
 		if(empty($this->response['response']['text'])) {
-			if($this->request['session']['new']) {
+			if($this->is_new_session()) {
 				$action($this);
 				return true;
 			}

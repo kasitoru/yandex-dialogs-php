@@ -15,6 +15,8 @@ ___
  	+ [Конструктор](#%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80) - Создание объекта класса YandexDialog;
 	+ [get_request](#get_request) - Получить информацию о запросе пользователя;
 	+ [get_some_text](#get_some_text) - Получает часть текста на основе заданных шаблонов;
+	+ [is_new_session](#is_new_session) - Проверка признака старта новой сессии;
+	+ [is_cmd_start](#is_cmd_start) - Проверка запуска с помощью "Алиса попроси/скажи...";
 	+ [bind_new_action](#bind_new_action) - Связывает указанную функцию с событием начала нового диалога (новой сессии);
 	+ [bind_words_action](#bind_words_action) - Связывает указанную функцию с событием нахождения одного из заданных слов в запросе пользователя;
 	+ [bind_percentage_action](#bind_percentage_action) - Связывает указанную функцию с событием превышения заданного процентного нахождения слов в запросе пользователя;
@@ -108,6 +110,26 @@ ___
 	$name = $alice->get_some_text('Меня зовут {name2}.', $text); // ['name2' => 'Иван Иванов']
 	$age = $alice->get_some_text('Мне {*}{age:int} лет', $text); // ['age' => 25]
 	$results = $alice->get_some_text('Меня зовут {name:word}{*}Мне {*}{age:int} лет', $text); // ['name' => 'Иван', 'age' => 25]
+
+### is_new_session
+
+`public function is_new_session(): bool`
+
+Метод возвращает true, если текущий запрос является началом новой сессии.
+
+	if($alice->is_new_session()) {
+		...
+	}
+
+### is_cmd_start
+
+`public function is_cmd_start(): bool`
+
+Метод возвращает true, если текущий запрос является началом новой сессии, запущенной с помощью команд "попроси ..."/"скажи ..." и подобных.
+
+	if($alice->is_cmd_start()) {
+		...
+	}
 
 ### bind_new_action
 
