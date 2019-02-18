@@ -114,6 +114,28 @@ class YandexDialog {
 		return false;
 	}
 	
+	// Получить процентное содержание слов в массиве
+	public function get_words_percentage($words, $tokens) {
+		$matches = 0;
+		foreach($words as $word) {
+			foreach($tokens as $token) {
+				$token = mb_strtolower($token);
+				if(is_array($word)) {
+					if(in_array($token, array_map('strtolower', $word))) {
+						$matches++;
+						break;
+					}
+				} else {
+					if($token == mb_strtolower($word)) {
+						$matches++;
+						break;
+					}
+				}
+			}
+		}
+		return $matches/(count($words)/100);
+	}
+	
 	// Проверка признака старта новой сессии
 	public function is_new_session() {
 		return $this->request['session']['new'];
@@ -149,23 +171,7 @@ class YandexDialog {
     public function bind_percentage_action($words, $percentage, $action) {
 		if(empty($this->response['response']['text'])) {
 			if($tokens = $this->request['request']['nlu']['tokens']) {
-				$matches = 0;
-				foreach($words as $word) {
-					foreach($tokens as $token) {
-						if(is_array($word)) {
-							if(in_array($token, $word)) {
-								$matches++;
-								break;
-							}
-						} else {
-							if($token == $word) {
-								$matches++;
-								break;
-							}
-						}
-					}
-				}
-                $match = $matches/(count($words)/100);
+				$match = $this->get_words_percentage($words, $tokens);
 				if($match >= $percentage) {
 					return $action($match, $this);
 				}
