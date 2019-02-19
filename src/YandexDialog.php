@@ -9,12 +9,13 @@
 namespace YandexStation;
 
 class YandexDialog {
-	
+
 	public $request = null;
 	public $response = null;
 	public $users_dir = 'users';
 	public $sentences = false;
-	
+
+	private $debug = null;
 	private $yametrika = null;
 	private $chatbase = null;
 	private $cb_handled = false;
@@ -52,6 +53,11 @@ class YandexDialog {
 			}
 		}
 		return false;
+	}
+
+	// Включить отладку
+	public function debug() {
+		$this->debug = microtime(true);
 	}
 	
 	// Получаем данные от пользователя
@@ -455,6 +461,17 @@ class YandexDialog {
 		// Уничтожение сессии
 		if($this->response['response']['end_session']) {
 			session_destroy();
+		}
+		// Отладочная информация
+		if(!is_null($this->debug)) {
+			$this->response['debug'] = [
+				'memory' => memory_get_peak_usage(),
+				'php' => phpversion(),
+				'server_ip' => $_SERVER['SERVER_ADDR'],
+				'remote_ip' => $_SERVER['REMOTE_ADDR'],
+				'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+				'execution_time' => microtime(true) - $this->debug,
+			];
 		}
 		// Выводим результат
 		$json = json_encode($this->response);
