@@ -157,10 +157,11 @@ class YandexDialog {
 	public function compare_sentences($first, $second) {
 		$first = $this->get_sentence_words($first);
 		$second = $this->get_sentence_words($second);
-		$count = max(count($first), count($second));
-		$intersect = array_intersect($first, $second);
-		return count($intersect)/($count/100);
-		
+		if(count($first) < count($second)) {
+			return $this->words_percentage($second, $first);
+		} else {
+			return $this->words_percentage($first, $second);
+		}
 	}
 
 	// Проверка признака старта новой сессии
