@@ -84,7 +84,7 @@ class YandexDialog {
 	}
 	
 	// Получение части текста на основе шаблона
-	public function get_some_text($patterns, $text=null) {
+	public function get_template_text($patterns, $text=null) {
 		if(!is_array($patterns)) $patterns = [$patterns];
 		foreach($patterns as $pattern) {
 			$pattern = preg_quote($pattern);

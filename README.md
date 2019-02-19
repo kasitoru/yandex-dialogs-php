@@ -16,7 +16,7 @@ ___
  	+ [Конструктор](#%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80) - Создание объекта класса YandexDialog;
 	+ [debug](#debug) - Начать сбор отладочной информации;
 	+ [get_request](#get_request) - Получить информацию о запросе пользователя;
-	+ [get_some_text](#get_some_text) - Получает часть текста на основе заданных шаблонов;
+	+ [get_template_text](#get_template_text) - Получает часть текста на основе заданных шаблонов;
 	+ [get_sentence_words](#get_sentence_words) - Разбивает предложение на массив слов;
 	+ [words_percentage](#words_percentage) - Получить процентное содержание слов в массиве;
 	+ [compare_words](#compare_words) - Сравнение двух слов на схожесть;
@@ -51,7 +51,7 @@ ___
 |Поддержка сервиса [Google Chatbase](#use_chatbase) | **09.01.2019**
 |[Сохранение](#get_session_data)/[получение](#set_session_data) данных сессии | **05.02.2019**
 |[Сохранение](#set_user_data)/[получение](#get_user_data) данных пользователя | **05.02.2019**
-|Получение части текста по шаблону ([get_some_text](#get_some_text)) | **07.02.2019**
+|Получение части текста по шаблону ([get_template_text](#get_template_text)) | **07.02.2019**
 |Поддержка сервиса [Яндекс.Метрика](#use_yametrika) | **08.02.2019**
 |Отправка [сообщений с изображениями](https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) | ---
 |Морфологический анализ слов с помощью [phpMorphy](https://github.com/heromantor/phpmorphy) | ---
@@ -107,9 +107,9 @@ ___
 
 	$alice->get_request();
 
-### get_some_text
+### get_template_text
 
-`public function get_some_text(array $patterns, string $text=null): array`
+`public function get_template_text(array $patterns, string $text=null): array`
 
 Получает часть текста на основе заданных шаблонов. Метод возвращает ассоциативный массив, в котором в качестве ключей выступают имена паттернов, а значения заполнены найденными результатами. Если поиск не удался (оригинальный текст не подходит под указанные шаблоны, либо шаблоны составлены с ошибкой), то метод возвращает false.
 
@@ -119,12 +119,12 @@ ___
 
 	$text = 'Меня зовут Иван Иванов. Мне сейчас 25 лет.';
 	
-	$name = $alice->get_some_text(['Меня зовут {name1:word}', 'Мое имя {name1:word}'], $text); // ['name1' => 'Иван']
+	$name = $alice->get_template_text(['Меня зовут {name1:word}', 'Мое имя {name1:word}'], $text); // ['name1' => 'Иван']
 	// Если шаблон один, то можно передавать его строкой
-	$name = $alice->get_some_text('Меня зовут {name1:word}', $text); // ['name1' => 'Иван']
-	$name = $alice->get_some_text('Меня зовут {name2}.', $text); // ['name2' => 'Иван Иванов']
-	$age = $alice->get_some_text('Мне {*}{age:int} лет', $text); // ['age' => 25]
-	$results = $alice->get_some_text('Меня зовут {name:word}{*}Мне {*}{age:int} лет', $text); // ['name' => 'Иван', 'age' => 25]
+	$name = $alice->get_template_text('Меня зовут {name1:word}', $text); // ['name1' => 'Иван']
+	$name = $alice->get_template_text('Меня зовут {name2}.', $text); // ['name2' => 'Иван Иванов']
+	$age = $alice->get_template_text('Мне {*}{age:int} лет', $text); // ['age' => 25]
+	$results = $alice->get_template_text('Меня зовут {name:word}{*}Мне {*}{age:int} лет', $text); // ['name' => 'Иван', 'age' => 25]
 
 ### get_sentence_words
 

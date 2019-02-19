@@ -23,7 +23,7 @@ if($alice->get_request()) {
 	// Действие по умолчанию
 	function _default($alice) {
 		$name = null;
-		if($name = $alice->get_some_text(['меня зовут {name:word}', 'мое имя {name:word}'])) { // Получаем имя из фразы
+		if($name = $alice->get_template_text(['меня зовут {name:word}', 'мое имя {name:word}'])) { // Получаем имя из фразы
 			$name = $name['name'];
 		} elseif(count($alice->request['request']['nlu']['tokens']) == 1) { // Если было названо только одно слово, то считаем что это имя
 			$name = $alice->request['request']['command'];
