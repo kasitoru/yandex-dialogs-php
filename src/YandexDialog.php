@@ -417,7 +417,7 @@ class YandexDialog {
 				$this->response['response']['tts'] = mb_strimwidth($this->response['response']['tts'], 0, 1021, '...');
 			}
 		} else {
-			$error = 'Error: text is empty!';
+			$error = 'Ошибка: навык вернул пустой ответ!';
 			$this->response['response']['text'] = $error;
 			$this->response['response']['tts'] = $error;
 		}
