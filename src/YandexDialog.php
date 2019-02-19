@@ -147,14 +147,6 @@ class YandexDialog {
 		}
 		return $matches/(count($words)/100);
 	}
-	
-	// Получить процентную схожесть предложения с массивом слов
-	public function sentence_percentage($text, $tokens) {
-		if($words = $this->get_sentence_words($text)) {
-			return $this->words_percentage($words, $tokens);
-		}
-		return false;
-	}
 
 	// Сравнение схожести двух слов
 	public function compare_words($first, $second) {
