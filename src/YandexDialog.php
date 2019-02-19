@@ -397,7 +397,7 @@ class YandexDialog {
 	
 	// Использовать phpMorphy
 	public function use_phpmorphy($dicts_dir, $language='ru_RU') {
-		$this->phpmorphy = new phpMorphy($dicts_dir, $language);
+		$this->phpmorphy = new \phpMorphy($dicts_dir, $language);
 	}
 
 	// Использовать Яндекс.Метрику
