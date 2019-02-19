@@ -155,12 +155,22 @@ class YandexDialog {
 	
 	// Определение процента схожести двух предложений
 	public function compare_sentences($first, $second) {
-		$first = $this->get_sentence_words($first);
-		$second = $this->get_sentence_words($second);
-		if(count($first) < count($second)) {
-			return $this->words_percentage($second, $first);
+		if($this->sentences) {
+			// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
+			$first = preg_replace('/([^\s0-9a-zа-яё]+)/ui', '', $first);
+			$first = preg_replace('/\s{2,}/', ' ', $first);
+			// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
+			$second = preg_replace('/([^\s0-9a-zа-яё]+)/ui', '', $second);
+			$second = preg_replace('/\s{2,}/', ' ', $second);
+			return strcmp(trim($first), trim($second)) == 0;
 		} else {
-			return $this->words_percentage($first, $second);
+			$first = $this->get_sentence_words($first);
+			$second = $this->get_sentence_words($second);
+			if(count($first) < count($second)) {
+				return $this->words_percentage($second, $first);
+			} else {
+				return $this->words_percentage($first, $second);
+			}
 		}
 	}
 
