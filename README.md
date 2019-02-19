@@ -10,20 +10,22 @@ ___
  3. [Описание свойств](#%D1%81%D0%B2%D0%BE%D0%B9%D1%81%D1%82%D0%B2%D0%B0)
  	+ [request](#request) - Содержит информацию о запросе пользователя;
 	+ [response](#response) - Содержит данные ответа на запрос пользователя;
-	+ [users_dir](#users_dir) - Имя каталога с данными пользователей
+	+ [users_dir](#users_dir) - Имя каталога с данными пользователей;
+	+ [sentences](#sentences) - Анализировать целые предложения, а не отдельные слова;
  4. [Описание методов](#%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B)
  	+ [Конструктор](#%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80) - Создание объекта класса YandexDialog;
 	+ [get_request](#get_request) - Получить информацию о запросе пользователя;
 	+ [get_some_text](#get_some_text) - Получает часть текста на основе заданных шаблонов;
-	+ [get_words_percentage](#get_words_percentage) - Получить процентное содержание слов в массиве;
-	+ [get_suggestion_percentage](#get_suggestion_percentage) - Получить процентную схожесть предложения с массивом слов;
-	+ [get_suggestion_words](#get_suggestion_words) - Разбивает предложение на массив слов;
+	+ [get_sentence_words](#get_sentence_words) - Разбивает предложение на массив слов;
+	+ [words_percentage](#words_percentage) - Получить процентное содержание слов в массиве;
+	+ [compare_words](#compare_words) - Сравнение двух слов на схожесть;
+	+ [compare_sentences](#compare_sentences) - Определение процента схожести двух предложений;
 	+ [is_new_session](#is_new_session) - Проверка признака старта новой сессии;
 	+ [is_cmd_start](#is_cmd_start) - Проверка наличия запроса, переданного вместе с командой активации навыка;
 	+ [bind_new_action](#bind_new_action) - Связывает указанную функцию с событием начала нового диалога (новой сессии);
 	+ [bind_words_action](#bind_words_action) - Связывает указанную функцию с событием нахождения одного из заданных слов в запросе пользователя;
 	+ [bind_percentage_action](#bind_percentage_action) - Связывает указанную функцию с событием превышения заданного процентного нахождения слов в запросе пользователя;
-	+ [bind_suggestion_action](#bind_suggestion_action) - Связывает указанную функцию с событием превышения (или равенства) заданной процентной схожести предложения;
+	+ [bind_sentence_action](#bind_sentence_action) - Связывает указанную функцию с событием превышения (или равенства) заданной процентной схожести предложения;
 	+ [bind_default_action](#bind_default_action) - Связывает указанную функцию с собитием отсутствия других действий;
 	+ [add_button](#add_button) - Добавляет кнопку в варианты ответа пользователя;
 	+ [add_message](#add_message) - Добавляет сообщение в список ответов;
@@ -67,11 +69,14 @@ ___
 ### request
 Содержит информацию о запросе пользователя. Более подробно можно почитать в [официальной документации](https://tech.yandex.ru/dialogs/alice/doc/protocol-docpage/#request) к протоколу.
 
+### response
+Содержит данные ответа на запрос пользователя. Более подробно можно почитать в [официальной документации](https://tech.yandex.ru/dialogs/alice/doc/protocol-docpage/#response) к протоколу.
+
 ### users_dir
 Имя каталога, содержащего файлы с данными пользователей (см. [get_user_data](#get_user_data) и [set_user_data](#set_user_data)). Строка. По умолчанию: 'users'.
 
-### response
-Содержит данные ответа на запрос пользователя. Более подробно можно почитать в [официальной документации](https://tech.yandex.ru/dialogs/alice/doc/protocol-docpage/#response) к протоколу.
+### sentences
+Анализировать целые предложения, а не отдельные слова. На данный момент влияет только на алгоритм работы методов [compare_sentences](#compare_sentences) и [bind_sentence_action](#bind_sentence_action). Логическое. По умолчанию: false.
 
 ## Методы
 
@@ -114,9 +119,19 @@ ___
 	$age = $alice->get_some_text('Мне {*}{age:int} лет', $text); // ['age' => 25]
 	$results = $alice->get_some_text('Меня зовут {name:word}{*}Мне {*}{age:int} лет', $text); // ['name' => 'Иван', 'age' => 25]
 
-### get_words_percentage
+### get_sentence_words
 
-`public function get_words_percentage(array $words, array $tokens): int`
+`public function get_sentence_words(string $text): array`
+
+Разбивает предложение на массив слов в нижнем регистре.
+
+`$text` - Исходный текст. Строка. Обязательный параметр;
+
+	$words = $alice->get_sentence_words('Привет! Меня зовут Иван.'); // ['привет', 'меня', 'зовут', 'иван']
+
+### words_percentage
+
+`public function words_percentage(array $words, array $tokens): int`
 
 Получить процентное содержание указанных слов в переданном массиве. Регистр не учитывается.
 
@@ -124,29 +139,33 @@ ___
 
 `$tokens` - Строки для сравнения. Массив. Обязательный параметр;
 
-	$percentage = $alice->get_words_percentage([['раз', 'один'], 'два', 'три'], ['три', 'четыре', 'пять']); // ~33%
+	$percentage = $alice->words_percentage([['раз', 'один'], 'два', 'три'], ['три', 'четыре', 'пять']); // ~33%
 	
-### get_suggestion_percentage
+### compare_words
 
-`public function get_suggestion_percentage(string $text, array $tokens): int`
+`public function compare_words(string $first, string $second): bool`
 
-Получить процентную схожесть предложения с заданным массивом слов. Регистр не учитывается.
+Сравнивает два слова. Регистр не учитывается.
 
-`$text` - Исходный текст. Строка. Обязательный параметр;
+`$first` - Первое слово для сравнения. Строка. Обязательный параметр;
 
-`$tokens` - Строки для сравнения. Массив. Обязательный параметр;
+`$second` - Второе слово для сравнения. Строка. Обязательный параметр;
 
-	$percentage = $alice->get_suggestion_percentage('Сколько сейчас времени?', ['сколько', 'времени']); // ~66%
+	if($alice->compare_words('ПрИвЕт', 'привет')) { // true
+		...
+	}
 
-### get_suggestion_words
+### compare_sentences
 
-`public function get_suggestion_words(string $text): array`
+`public function compare_sentences(string $first, string $second): int`
 
-Разбивает предложение на массив слов в нижнем регистре.
+Получает процент схожести двух предложений. В зависимости от значения свойства [sentences](#sentences) метод либо анализирует предложения целиком, либо разбивает их на отдельные слова и производит сравнение каждого из них.
 
-`$text` - Исходный текст. Строка. Обязательный параметр;
+`$first` - Первое предложение для сравнения. Строка. Обязательный параметр;
 
-	$words = $alice->get_suggestion_words('Привет! Меня зовут Иван.'); // ['привет', 'меня', 'зовут', 'иван']
+`$second` - Второе предложение для сравнения. Строка. Обязательный параметр;
+
+	$percents = $alice->compare_sentences('Привет! Как у тебя дела?', 'Как дела?'));
 
 ### is_new_session
 
@@ -219,11 +238,11 @@ ___
 	}
 	$alice->bind_percentage_action([['яблоко', 'груша'], 'апельсин'], 75, 'percentage_word_action');
 
-### bind_suggestion_action
+### bind_sentence_action
 
-`public function bind_suggestion_action(string $text, int $percentage, string $action): bool`
+`public function bind_sentence_action(string $text, int $percentage, string $action): bool`
 
-Связывает указанную функцию с событием превышения (или равенства) заданной процентной схожести предложения. В вызываемую функцию передается указатель на $this и найденное процентное значение. Работает на основе [bind_percentage_action](#bind_percentage_action).
+Связывает указанную функцию с событием превышения (или равенства) заданной процентной схожести предложения. В вызываемую функцию передается указатель на $this и найденное процентное значение. В зависимости от значения свойства [sentences](#sentences) метод либо анализирует предложения целиком, либо разбивает их на отдельные слова и производит сравнение каждого из них.
 
 `$text` - Предложение для сравнения схожести. Строка. Обязательный параметр;
 
@@ -236,7 +255,7 @@ ___
 		some code
 		...
 	}
-	$alice->bind_suggestion_action('Очистить список покупок', 75, 'suggestion_action');
+	$alice->bind_sentence_action('Очистить список покупок', 75, 'suggestion_action');
 
 ### bind_default_action
 
@@ -401,3 +420,4 @@ Chatbase PHP: https://gitlab.com/bhavyanshu/chatbase-php
 
 Server YaMetrika (форк): https://github.com/thesoultaker48/server_yametrika
 
+CRC (by Philip Burggraf): https://github.com/pburggraf/CRC
