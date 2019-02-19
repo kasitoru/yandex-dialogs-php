@@ -37,6 +37,7 @@ ___
 	+ [get_session_data](#get_session_data) - Получить значение переменной из сессии пользователя;
 	+ [set_session_data](#set_session_data) - Установить значение переменной из сессии пользователя;
 	+ [end_session](#end_session) - Завершает диалог с пользователем;
+	+ [use_phpmorphy](#use_phpmorphy) - Включает использование библиотеки phpMorphy;
 	+ [use_yametrika](#use_yametrika) - Включает использование сервиса Яндекс.Метрика;
 	+ [yametrika_rgoal](#yametrika_rgoal) - Передача информации о достижении цели в Яндекс.Метрике;
 	+ [use_chatbase](#use_chatbase) - Включает использование сервиса Google Chatbase;
@@ -55,8 +56,8 @@ ___
 |[Сохранение](#set_user_data)/[получение](#get_user_data) данных пользователя | **05.02.2019**
 |Получение части текста по шаблону ([get_template_text](#get_template_text)) | **07.02.2019**
 |Поддержка сервиса [Яндекс.Метрика](#use_yametrika) | **08.02.2019**
+|Морфологический анализ слов с помощью [phpMorphy](https://github.com/heromantor/phpmorphy) | **В процессе**
 |Отправка [сообщений с изображениями](https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) | ---
-|Морфологический анализ слов с помощью [phpMorphy](https://github.com/heromantor/phpmorphy) | ---
 |Поддержка сервиса [AppMetrica](https://appmetrica.yandex.ru/) | ---
 |Поддержка сервиса [Google Analytics](https://analytics.google.com/) | ---
 |Анализ текста с помощью [Томита-парсер](https://tech.yandex.ru/tomita/) | ---
@@ -397,6 +398,18 @@ ___
 Завершает диалог с пользователем.
 
 	$alice->end_session();
+
+### use_phpmorphy
+
+`public function use_phpmorphy(string $dicts_dir, string $language='ru_RU')`
+
+Включает использование библиотеки [phpMorphy](http://phpmorphy.sourceforge.net/).
+
+`$dicts_dir` - Путь к каталогу со словарями. Строка. Обязательный параметр.
+
+`$language` - Язык, для которого будем использовать словарь. Указывается как ISO3166 код страны и ISO639 код языка, разделенные символом подчеркивания (ru_RU, uk_UA, en_EN, de_DE и т.п.). Строка. Не обязательно. По-умолчанию: "ru_RU".
+
+	$alice->use_phpmorphy('vendor/umisoft/phpmorphy/dicts/');
 
 ### use_yametrika
 

@@ -16,6 +16,7 @@ class YandexDialog {
 	public $sentences = false;
 
 	private $debug = null;
+	private $phpmorphy = null;
 	private $yametrika = null;
 	private $chatbase = null;
 	private $cb_handled = false;
@@ -167,7 +168,22 @@ class YandexDialog {
 
 	// Сравнение двух слов на схожесть
 	public function compare_words($first, $second) {
-		return strcmp(mb_strtolower($first), mb_strtolower($second)) == 0;
+		$first = mb_strtoupper($first);
+		$second = mb_strtoupper($second);
+		if(!is_null($this->phpmorphy)) {
+			$lemmatize = $this->phpmorphy->lemmatize([$first, $second]);
+			if(is_array($lemmatize[$first]) && is_array($lemmatize[$second])) {
+				foreach($lemmatize[$first] as $first_lemmatize) {
+					foreach($lemmatize[$second] as $second_lemmatize) {
+						if(strcmp($first_lemmatize, $second_lemmatize) == 0) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+		}
+		return strcmp($first, $second) == 0;
 	}
 	
 	// Определение процента схожести двух предложений
@@ -377,6 +393,11 @@ class YandexDialog {
 	public function end_session() {
 		$this->response['response']['end_session'] = true;
 		return true;
+	}
+	
+	// Использовать phpMorphy
+	public function use_phpmorphy($dicts_dir, $language='ru_RU') {
+		$this->phpmorphy = new phpMorphy($dicts_dir, $language);
 	}
 
 	// Использовать Яндекс.Метрику

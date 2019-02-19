@@ -15,7 +15,8 @@
         "php": ">=7.0",
         "thesoultaker48/server_yametrika": "~1.0.3",
         "pburggraf/crc": "~0.5.4",
-        "bhavyanshu/chatbase-php": "~1.2.0"
+        "bhavyanshu/chatbase-php": "~1.2.0",
+        "umisoft/phpmorphy": "~1.0.1"
     },
     "require-dev": {
     },
