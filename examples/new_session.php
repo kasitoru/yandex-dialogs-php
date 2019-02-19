@@ -37,7 +37,7 @@ if($alice->get_request()) {
 			$alice->add_message('Ужасная!');
 		}
 	}
-	$alice->bind_suggestion_action('какая сегодня погода', 60, '_weather');
+	$alice->bind_sentence_action('какая сегодня погода', 60, '_weather');
 
 	// Неизвестная команда
 	function _default($alice) {

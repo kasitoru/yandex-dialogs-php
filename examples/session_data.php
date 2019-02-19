@@ -24,7 +24,7 @@ if($alice->get_request()) {
 	
 	// Пользователь ответил "нет" - сохраним эти данные в переменной "winter"
 	function _no($tokens, $alice) {
-		$alice->add_message('Понятно! Мне, если честно, холод тоже не по душе! А как на счет лета?');
+		$alice->add_message('Понятно! Мне, если честно, холод тоже не по душе! А где вы живете?');
 		$alice->set_session_data('winter', 'no');
 	}
 	$alice->bind_words_action(['не', 'нет'], '_no');
