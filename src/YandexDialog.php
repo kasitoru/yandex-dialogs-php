@@ -148,7 +148,7 @@ class YandexDialog {
 		return $matches/(count($words)/100);
 	}
 
-	// Сравнение схожести двух слов
+	// Сравнение двух слов на схожесть
 	public function compare_words($first, $second) {
 		return strcmp(mb_strtolower($first), mb_strtolower($second)) == 0;
 	}
