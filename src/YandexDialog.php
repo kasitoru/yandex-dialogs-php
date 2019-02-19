@@ -130,6 +130,17 @@ class YandexDialog {
 		}
 		return false;
 	}
+	
+	// Выбор необходимого склонения для числительного
+	public function get_plural_form($number, $words) {
+		$cases = array(2, 0, 1, 1, 1, 2);
+		if($number%100>4 && $number%100<20) {
+			$case = 2;
+		} else {
+			$case = $cases[min($number%10, 5)];
+		}
+		return $words[$case];
+	}
 		
 	// Получить процентное содержание слов в массиве
 	public function words_percentage($words, $tokens) {
