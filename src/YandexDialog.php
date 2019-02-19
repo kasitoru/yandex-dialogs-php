@@ -252,6 +252,16 @@ class YandexDialog {
 		return false;
     }
 	
+	// Действие, выполняемое при совпадении текстового шаблона
+	public function bind_template_action($patterns, $action) {
+		if(empty($this->response['response']['text'])) {
+			if($results = $this->get_template_text($patterns)) {
+				return $action($results, $this);
+			}
+		}
+		return false;
+	}
+	
     // Действие, выполняемое по умолчанию (при отсутствии других действий)
     public function bind_default_action($action) {
         if(empty($this->response['response']['text'])) {
