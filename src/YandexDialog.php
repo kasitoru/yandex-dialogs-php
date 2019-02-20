@@ -13,7 +13,6 @@ class YandexDialog {
 	public $request = null;
 	public $response = null;
 	public $users_dir = 'users';
-	public $sentences = false;
 
 	private $debug = null;
 	private $phpmorphy = null;
@@ -185,27 +184,6 @@ class YandexDialog {
 		}
 		return strcmp($first, $second) == 0;
 	}
-	
-	// Определение процента схожести двух предложений
-	public function compare_sentences($first, $second) {
-		if($this->sentences) {
-			// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
-			$first = preg_replace('/([^\s0-9a-zа-яё]+)/ui', '', $first);
-			$first = preg_replace('/\s{2,}/', ' ', $first);
-			// fixme: учитывать слова с дефисом ("по-русски", "юго-запад" и т.д.)
-			$second = preg_replace('/([^\s0-9a-zа-яё]+)/ui', '', $second);
-			$second = preg_replace('/\s{2,}/', ' ', $second);
-			return strcmp(trim($first), trim($second)) == 0;
-		} else {
-			$first = $this->get_sentence_words($first);
-			$second = $this->get_sentence_words($second);
-			if(count($first) < count($second)) {
-				return $this->words_percentage($second, $first);
-			} else {
-				return $this->words_percentage($first, $second);
-			}
-		}
-	}
 
 	// Проверка признака старта новой сессии
 	public function is_new_session() {
@@ -263,17 +241,10 @@ class YandexDialog {
 	// Действие, выполняемое при удовлетворении процентной схожести предложения
     public function bind_sentence_action($text, $percentage, $action) {
 		if(empty($this->response['response']['text'])) {
-			if($this->sentences) {
-				$match = $this->compare_sentences($text, $this->request['request']['command']);
-				if($match >= $percentage) {
-					return $action($match, $this);
-				}
+			if($words = $this->get_sentence_words($text)) {
+				return $this->bind_percentage_action($words, $percentage, $action);
 			} else {
-				if($words = $this->get_sentence_words($text)) {
-					return $this->bind_percentage_action($words, $percentage, $action);
-				} else {
-					return false;
-				}
+				return false;
 			}
 		}
 		return false;

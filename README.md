@@ -21,7 +21,6 @@ ___
 	+ [get_plural_form](#get_plural_form) - Выбор слова с необходимым склонением для числительного;
 	+ [words_percentage](#words_percentage) - Получить процентное содержание слов в массиве;
 	+ [compare_words](#compare_words) - Сравнение двух слов на схожесть;
-	+ [compare_sentences](#compare_sentences) - Определение процента схожести двух предложений;
 	+ [is_new_session](#is_new_session) - Проверка признака старта новой сессии;
 	+ [is_cmd_start](#is_cmd_start) - Проверка наличия запроса, переданного вместе с командой активации навыка;
 	+ [bind_new_action](#bind_new_action) - Связывает указанную функцию с событием начала нового диалога (новой сессии);
@@ -78,9 +77,6 @@ ___
 
 ### users_dir
 Имя каталога, содержащего файлы с данными пользователей (см. [get_user_data](#get_user_data) и [set_user_data](#set_user_data)). Строка. По умолчанию: 'users'.
-
-### sentences
-Анализировать целые предложения, а не отдельные слова. На данный момент влияет только на алгоритм работы методов [compare_sentences](#compare_sentences) и [bind_sentence_action](#bind_sentence_action). Логическое. По умолчанию: false.
 
 ## Методы
 
@@ -178,18 +174,6 @@ ___
 	if($alice->compare_words('ПрИвЕт', 'привет')) { // true
 		...
 	}
-
-### compare_sentences
-
-`public function compare_sentences(string $first, string $second): int`
-
-Получает процент схожести двух предложений. В зависимости от значения свойства [sentences](#sentences) метод либо анализирует предложения целиком, либо разбивает их на отдельные слова и производит сравнение каждого из них.
-
-`$first` - Первое предложение для сравнения. Строка. Обязательный параметр;
-
-`$second` - Второе предложение для сравнения. Строка. Обязательный параметр;
-
-	$percents = $alice->compare_sentences('Привет! Как у тебя дела?', 'Как дела?'));
 
 ### is_new_session
 
