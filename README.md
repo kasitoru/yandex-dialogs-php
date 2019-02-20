@@ -55,7 +55,7 @@ ___
 |[Сохранение](#set_user_data)/[получение](#get_user_data) данных пользователя | **05.02.2019**
 |Получение части текста по шаблону ([get_template_text](#get_template_text)) | **07.02.2019**
 |Поддержка сервиса [Яндекс.Метрика](#use_yametrika) | **08.02.2019**
-|Морфологический анализ слов с помощью [phpMorphy](https://github.com/heromantor/phpmorphy) | **В процессе**
+|Морфологический анализ слов с помощью [phpMorphy](https://github.com/heromantor/phpmorphy) | **20.02.2019**
 |Отправка [сообщений с изображениями](https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) | ---
 |Поддержка сервиса [AppMetrica](https://appmetrica.yandex.ru/) | ---
 |Поддержка сервиса [Google Analytics](https://analytics.google.com/) | ---
