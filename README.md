@@ -59,7 +59,6 @@ ___
 |Отправка [сообщений с изображениями](https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) | ---
 |Поддержка сервиса [AppMetrica](https://appmetrica.yandex.ru/) | ---
 |Поддержка сервиса [Google Analytics](https://analytics.google.com/) | ---
-|Анализ текста с помощью [Томита-парсер](https://tech.yandex.ru/tomita/) | ---
 |Вложенные нелинейные сценарии | ---
 |Расширение списка [встроенных тегов](#%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%82%D0%B5%D0%B3%D0%B8) | ---
 
