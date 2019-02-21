@@ -119,7 +119,7 @@ class YandexDialog {
 				}
 			}
 			$pattern = str_replace('\{\*\}', '(?:.*)', $pattern);
-			$pattern = preg_replace_callback('/\\\{(.*[|]+.*)\\\}/',
+			$pattern = preg_replace_callback('/\\\{(.*[|]+.*)\\\}/U',
 				function($match) {
 					return '(?:'.str_replace('\|', '|', $match[1]).')';
 				},
