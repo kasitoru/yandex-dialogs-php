@@ -60,7 +60,7 @@ class YandexDialog {
 		// Тег [date:format]
 		$text = preg_replace_callback('/\[date:(.+?)\]/i', function($match) { return date($match[1]); }, $text);
 		// Обрабатываем теги [word1|word2...]
-		$text = preg_replace_callback('/\[(.*[|]+.*)\]/', function($match) { $words = explode('|', $match[1]); return $words[array_rand($words)]; }, $text);
+		$text = preg_replace_callback('/\[(.*[|]+.*)\]/U', function($match) { $words = explode('|', $match[1]); return $words[array_rand($words)]; }, $text);
 		// Готово
 		return $text;
 	}
