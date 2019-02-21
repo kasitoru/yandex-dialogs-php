@@ -55,7 +55,7 @@ ___
 |[Сохранение](#set_user_data)/[получение](#get_user_data) данных пользователя | **05.02.2019**
 |Получение части текста по шаблону ([get_template_text](#get_template_text)) | **07.02.2019**
 |Поддержка сервиса [Яндекс.Метрика](#use_yametrika) | **08.02.2019**
-|Морфологический анализ слов с помощью [phpMorphy](https://github.com/heromantor/phpmorphy) | **20.02.2019**
+|Морфологический анализ слов с помощью [phpMorphy](https://github.com/Umisoft/phpmorphy) | **20.02.2019**
 |Расширение списка [встроенных тегов](#%D0%B2%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%82%D0%B5%D0%B3%D0%B8) | **в работе**
 |Отправка [сообщений с изображениями](https://tech.yandex.ru/dialogs/alice/doc/resource-upload-docpage/) | ---
 |Поддержка сервиса [AppMetrica](https://appmetrica.yandex.ru/) | ---
@@ -455,6 +455,8 @@ ___
 `[date:format]` - Текущая дата/время в формате format (см. подробнее в описании PHP функции [date()](http://php.net/manual/ru/function.date.php));
 
 ## Используемые библиотеки
+
+phpMorphy: https://github.com/Umisoft/phpmorphy
 
 Chatbase PHP: https://gitlab.com/bhavyanshu/chatbase-php
 
