@@ -87,10 +87,10 @@ class YandexDialog {
 	public function get_template_text($patterns, $text=null) {
 		if(!is_array($patterns)) $patterns = [$patterns];
 		foreach($patterns as $pattern) {
+			$m_names = [];
 			$pattern = preg_quote($pattern);
 			$text = $text ?? $this->request['request']['command'];
 			if(preg_match_all('/\\\{([0-9a-z_\\\:]+)\\\}/', $pattern, $matches)) {
-				$m_names = [];
 				for($i=0;$i<count($matches[0]);$i++) {
 					$match = explode('\:', $matches[1][$i], 2);
 					$m_names[] = $match[0];
@@ -107,15 +107,20 @@ class YandexDialog {
 					}
 					$pattern = str_replace($matches[0][$i], $m_pattern, $pattern);
 				}
-				$pattern = str_replace('\{\*\}', '(?:.*)', $pattern);
-				if(preg_match_all('/'.$pattern.'/ui', $text, $matches)) {
-					$matches = array_slice($matches, 1);
-					$results = [];
-					foreach($m_names as $i => $name) {
-						$results[$name] = $matches[$i][0];
-					}
-					return $results;
+			}
+			$pattern = str_replace('\{\*\}', '(?:.*)', $pattern);
+			$pattern = preg_replace_callback('/\\\{(.*[|]+.*)\\\}/',
+				function($match) {
+					return '(?:'.str_replace('\|', '|', $match[1]).')';
+				},
+			$pattern);
+			if(preg_match_all('/'.$pattern.'/ui', $text, $matches)) {
+				$matches = array_slice($matches, 1);
+				$results = [];
+				foreach($m_names as $i => $name) {
+					$results[$name] = $matches[$i][0];
 				}
+				return $results;
 			}
 		}
 		return false;

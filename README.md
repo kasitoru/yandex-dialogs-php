@@ -122,7 +122,9 @@ ___
 	$name = $alice->get_template_text('Меня зовут {name1:word}', $text); // ['name1' => 'Иван']
 	$name = $alice->get_template_text('Меня зовут {name2}.', $text); // ['name2' => 'Иван Иванов']
 	$age = $alice->get_template_text('Мне {*}{age:int} лет', $text); // ['age' => 25]
-	$results = $alice->get_template_text('Меня зовут {name:word}{*}Мне {*}{age:int} лет', $text); // ['name' => 'Иван', 'age' => 25]
+	$matches = $alice->get_template_text('Меня зовут {name:word}{*}Мне {*}{age:int} лет', $text); // ['name' => 'Иван', 'age' => 25]
+	$results = $alice->get_template_text('{Меня зовут|Мое имя} {*}', $text); // []
+	$results = $alice->get_template_text('Привет! {*}', $text); // false
 
 ### get_sentence_words
 
