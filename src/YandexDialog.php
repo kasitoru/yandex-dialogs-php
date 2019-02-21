@@ -258,7 +258,7 @@ class YandexDialog {
 	// Действие, выполняемое при совпадении текстового шаблона
 	public function bind_template_action($patterns, $action) {
 		if(empty($this->response['response']['text'])) {
-			if($results = $this->get_template_text($patterns)) {
+			if($results = $this->get_template_text($patterns) !== false) {
 				return $action($results, $this);
 			}
 		}
