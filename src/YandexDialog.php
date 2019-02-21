@@ -485,12 +485,13 @@ class YandexDialog {
 		// Отладочная информация
 		if(!is_null($this->debug)) {
 			$this->response['debug'] = [
-				'memory' => memory_get_peak_usage(),
+				'memory' => round(memory_get_peak_usage()/1024/1024, 2).' MB',
 				'php' => phpversion(),
 				'server_ip' => $_SERVER['SERVER_ADDR'],
 				'remote_ip' => $_SERVER['REMOTE_ADDR'],
 				'user_agent' => $_SERVER['HTTP_USER_AGENT'],
-				'execution_time' => microtime(true) - $this->debug,
+				'max_timeout' => ($_SERVER['HTTP_REQUEST_TIMEOUT']/1000).' ms',
+				'execution_time' => round(microtime(true) - $this->debug, 5),
 			];
 		}
 		// Выводим результат
