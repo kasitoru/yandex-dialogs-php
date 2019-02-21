@@ -138,6 +138,7 @@ class YandexDialog {
 	
 	// Выбор необходимого склонения для числительного
 	public function get_plural_form($number, $words) {
+		$number = intval($number);
 		$cases = array(2, 0, 1, 1, 1, 2);
 		if($number%100>4 && $number%100<20) {
 			$case = 2;
@@ -420,11 +421,12 @@ class YandexDialog {
 			$random = rand(0, count($this->response['response']['text'])-1);
 			$this->response['response']['text'] = $this->response['response']['text'][$random];
 			$this->response['response']['tts'] = $this->response['response']['tts'][$random];
+			// Тег [date:format]
+			$this->response['response']['text'] = preg_replace_callback('/\[date:(.+?)\]/i', function($match) { return date($match[1]); }, $this->response['response']['text']);
+			$this->response['response']['tts'] = preg_replace_callback('/\[date:(.+?)\]/i', function($match) { return date($match[1]); }, $this->response['response']['tts']);
 			// Обрабатываем теги [word1|word2...]
-			$replace_preg = '/\[(.+?)\]/';
-			$replace_callback = '$words = explode(\'|\', $matches[1]); return $words[array_rand($words)];';
-			$this->response['response']['text'] = preg_replace_callback($replace_preg, create_function('$matches', $replace_callback), $this->response['response']['text']);
-			$this->response['response']['tts'] = preg_replace_callback($replace_preg, create_function('$matches', $replace_callback), $this->response['response']['tts']);
+			$this->response['response']['text'] = preg_replace_callback('/\[(.*[|]+.*)\]/', function($match) { $words = explode('|', $match[1]); return $words[array_rand($words)]; }, $this->response['response']['text']);
+			$this->response['response']['tts'] = preg_replace_callback('/\[(.*[|]+.*)\]/', function($match) { $words = explode('|', $match[1]); return $words[array_rand($words)]; }, $this->response['response']['tts']);
 			// Прочие действия
 			$this->response['response']['text'] = strip_tags($this->response['response']['text']);
 			$this->response['response']['tts'] = strip_tags($this->response['response']['tts']);
