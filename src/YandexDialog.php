@@ -55,6 +55,16 @@ class YandexDialog {
 		return false;
 	}
 
+	// Применение тегов к тексту
+	private function apply_tags($text) {
+		// Тег [date:format]
+		$text = preg_replace_callback('/\[date:(.+?)\]/i', function($match) { return date($match[1]); }, $text);
+		// Обрабатываем теги [word1|word2...]
+		$text = preg_replace_callback('/\[(.*[|]+.*)\]/', function($match) { $words = explode('|', $match[1]); return $words[array_rand($words)]; }, $text);
+		// Готово
+		return $text;
+	}
+	
 	// Включить отладку
 	public function debug() {
 		$this->debug = microtime(true);
@@ -277,6 +287,7 @@ class YandexDialog {
     // Добавить кнопку
     public function add_button($title, $url=null, $payload=null, $hide=false) {
 		if(!empty($title)) {
+			$title = $this->apply_tags($title);
 			$button = [
 				'title' => mb_strimwidth($title, 0, 64),
 				'hide' => $hide
@@ -296,10 +307,12 @@ class YandexDialog {
 	// Добавить сообщение в список случайных ответов
 	public function add_message($message, $tts=null) {
 		if(!empty($message)) {
+			$message = $this->apply_tags($message);
 			$this->response['response']['text'][] = $message;
 			if(is_null($tts)) {
 				$this->response['response']['tts'][] = $message;
 			} else {
+				$tts = $this->apply_tags($tts);
 				$this->response['response']['tts'][] = $tts;
 			}
 			return true;
@@ -413,7 +426,7 @@ class YandexDialog {
 		}
 		return false;
 	}
-	
+
 	// Отправляем ответ пользователю
 	public function finish($return=false) {
 		if(!empty($this->response['response']['text'])) {
@@ -421,12 +434,6 @@ class YandexDialog {
 			$random = rand(0, count($this->response['response']['text'])-1);
 			$this->response['response']['text'] = $this->response['response']['text'][$random];
 			$this->response['response']['tts'] = $this->response['response']['tts'][$random];
-			// Тег [date:format]
-			$this->response['response']['text'] = preg_replace_callback('/\[date:(.+?)\]/i', function($match) { return date($match[1]); }, $this->response['response']['text']);
-			$this->response['response']['tts'] = preg_replace_callback('/\[date:(.+?)\]/i', function($match) { return date($match[1]); }, $this->response['response']['tts']);
-			// Обрабатываем теги [word1|word2...]
-			$this->response['response']['text'] = preg_replace_callback('/\[(.*[|]+.*)\]/', function($match) { $words = explode('|', $match[1]); return $words[array_rand($words)]; }, $this->response['response']['text']);
-			$this->response['response']['tts'] = preg_replace_callback('/\[(.*[|]+.*)\]/', function($match) { $words = explode('|', $match[1]); return $words[array_rand($words)]; }, $this->response['response']['tts']);
 			// Прочие действия
 			$this->response['response']['text'] = strip_tags($this->response['response']['text']);
 			$this->response['response']['tts'] = strip_tags($this->response['response']['tts']);
