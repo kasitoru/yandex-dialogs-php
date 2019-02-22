@@ -388,7 +388,7 @@ ___
 
 `public function use_phpmorphy(string $dicts_dir, string $language='ru_RU')`
 
-Включает использование библиотеки [phpMorphy](http://phpmorphy.sourceforge.net/).
+Включает использование библиотеки [phpMorphy](http://phpmorphy.sourceforge.net/). Вы так же можете самостоятельно вызывать нативные методы библиотеки, использовав в качестве объекта phpMorphy свойство $alice->phpmorphy. Данную функцию можно отключить в любой момент, присвоив свойству $alice->phpmorphy значение null.
 
 `$dicts_dir` - Путь к каталогу со словарями. Строка. Обязательный параметр.
 
