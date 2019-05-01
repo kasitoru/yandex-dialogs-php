@@ -63,7 +63,7 @@ ___
 |Вложенные нелинейные сценарии | ---
 
 ## Примеры
-Примеры использования библиотеки находятся в папке [examples](/thesoultaker48/yandex-dialogs-php/tree/master/examples).
+Примеры использования библиотеки находятся в папке [examples](https://github.com/thesoultaker48/yandex-dialogs-php/tree/master/examples).
 
 ## Свойства
 Не рекомендуется прямое изменение свойств объектов класса YandexDialog. Делайте это через соответствующие методы.
