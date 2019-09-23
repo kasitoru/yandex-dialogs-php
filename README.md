@@ -63,7 +63,7 @@ ___
 |Вложенные нелинейные сценарии | ---
 
 ## Примеры
-Примеры использования библиотеки находятся в папке [examples](https://github.com/thesoultaker48/yandex-dialogs-php/tree/master/examples).
+Примеры использования библиотеки находятся в папке [examples](https://github.com/avdeevsv91/yandex-dialogs-php/tree/master/examples).
 
 ## Свойства
 Не рекомендуется прямое изменение свойств объектов класса YandexDialog. Делайте это через соответствующие методы.
@@ -460,6 +460,6 @@ phpMorphy: https://github.com/Umisoft/phpmorphy
 
 Chatbase PHP: https://gitlab.com/bhavyanshu/chatbase-php
 
-Server YaMetrika (форк): https://github.com/thesoultaker48/server_yametrika
+Server YaMetrika (форк): https://github.com/avdeevsv91/server_yametrika
 
 CRC (by Philip Burggraf): https://github.com/pburggraf/CRC
