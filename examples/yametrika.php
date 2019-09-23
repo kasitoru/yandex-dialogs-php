@@ -2,8 +2,8 @@
 
 /*
 	PHP библиотека для разработки навыков Яндекс.Алисы
-	Author: Sergey Avdeev <thesoultaker48@gmail.com>
-	URL: https://github.com/thesoultaker48/yandex-dialogs-php
+	Author: Sergey Avdeev <avdeevsv91@gmail.com>
+	URL: https://github.com/avdeevsv91/yandex-dialogs-php
 */
 
 include_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php';
