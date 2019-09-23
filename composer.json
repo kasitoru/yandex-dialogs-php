@@ -1,19 +1,19 @@
 {
-    "name": "thesoultaker48/yandex-dialogs-php",
+    "name": "avdeevsv91/yandex-dialogs-php",
     "description": "PHP library for the development skills of Yandex.Alice",
     "license": "Apache-2.0",
     "keywords": ["yandex-alice", "yandex-dialogs"],
-    "homepage": "https://github.com/thesoultaker48/yandex-dialogs-php",
+    "homepage": "https://github.com/avdeevsv91/yandex-dialogs-php",
     "authors": [
         {
             "name": "Sergey Avdeev",
-            "email": "thesoultaker48@gmail.com"
+            "email": "avdeevsv91@gmail.com"
         }
     ],
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.0",
-        "thesoultaker48/server_yametrika": "~1.0.3",
+        "avdeevsv91/server_yametrika": "~1.0.3",
         "pburggraf/crc": "~0.5.4",
         "bhavyanshu/chatbase-php": "~1.2.0",
         "umisoft/phpmorphy": "~1.0.1"
