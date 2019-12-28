@@ -436,7 +436,7 @@ class YandexDialog {
 			$this->response['response']['tts'] = $this->response['response']['tts'][$random];
 			// Прочие действия
 			$this->response['response']['text'] = strip_tags($this->response['response']['text']);
-			$this->response['response']['tts'] = strip_tags($this->response['response']['tts']);
+			$this->response['response']['tts'] = strip_tags($this->response['response']['tts'], '<speaker>');
 			if(mb_strlen($this->response['response']['text']) > 1024) {
 				$this->response['response']['text'] = mb_strimwidth($this->response['response']['text'], 0, 1021, '...');
 			}
