@@ -86,6 +86,7 @@ class YandexDialog {
 			if($answer = $this->is_ping()) {
 				$this->add_message($answer);
 				$this->finish(true);
+				return false;
 			}
 			return true;
 		} else {
